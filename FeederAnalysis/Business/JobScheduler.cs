@@ -72,32 +72,13 @@ namespace FeederAnalysis.Business
              .WithIdentity("caliJob")
              .Build();
 
-            //ITrigger caliTrigger = TriggerBuilder.Create()
-            //   .WithIdentity("caliTrigger")
-            //   .StartNow()
-            //    .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
-            //    .OnEveryDay()
-            //    .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(8, 10))
-            //    )
-            //    .Build();
-            //ITrigger caliTrigger = TriggerBuilder.Create()
-            // .WithIdentity("caliTrigger")
-            // .StartNow()
-            // .WithCronSchedule("0 15 8 10 * ?")
-            // .Build();
-            IJobDetail gaJob = JobBuilder.Create<GaJob>()
-              .WithIdentity("gaJob")
-              .Build();
+          
+            //IJobDetail gaJob = JobBuilder.Create<GaJob>()
+            //  .WithIdentity("gaJob")
+            //  .Build();
 
 
-            ITrigger gaTrigger = TriggerBuilder.Create()
-                .WithIdentity("gaTrigger")
-                .StartNow()
-                .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
-                .OnEveryDay()
-                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(13, 30))
-                )
-                .Build();
+            
             IJobDetail solderJob = JobBuilder.Create<SolderJob>()
             .WithIdentity("soilderJob")
             .Build();
@@ -141,7 +122,7 @@ namespace FeederAnalysis.Business
             scheduler.ScheduleJob(tokusaiJob, tokusaiTrigger);
             scheduler.ScheduleJob(tokusaiAlarmJob, tokusaiAlarmTrigger);
             scheduler.ScheduleJob(opeJob, opeTrigger);
-            scheduler.ScheduleJob(gaJob, gaTrigger);
+            //scheduler.ScheduleJob(gaJob, gaTrigger);
             scheduler.ScheduleJob(solderJob, soilderTrigger);
             scheduler.ScheduleJob(kyoJob, kyoTrigger);
             scheduler.ScheduleJob(profileJob, profileTrigger);
