@@ -1,0 +1,2435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="KyoCheckMac">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="productID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoCheckMacResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="KyoCheckMacResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetQty">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetQtyResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="KyoGetQtyResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetMac">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetMacResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoGetMacResult" type="tns:ArrayOfKYOCERAEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfKYOCERAEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="KYOCERAEntity" nillable="true" type="tns:KYOCERAEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="KYOCERAEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ProductionID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LineID" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="BoxID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModelID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModelName" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateCheck" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="TimeCheck" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OperatorCode" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="JudgeResult" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OperatorName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="New_BoxID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Shipping" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Date_Shipping" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="User_Shipping" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="RetailBarrel" nillable="true" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Software" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="DownloadStatus" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OrderNo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Soft_Ver" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="FCT_Time" nillable="true" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="BaseEntity" />
+      <s:element name="KyoGetBoard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetBoardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoGetBoardResult" type="tns:KYOCERAEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoSaveBoard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:KYOCERAEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoSaveBoardResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="KyoRemoveBoard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoRemoveBoardResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="KyoGetInit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoGetInitResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoGetInitResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoTestLogFind">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoTestLogFindResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoTestLogFindResult" type="tns:ArrayOfKyoMacAddrEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfKyoMacAddrEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="KyoMacAddrEntity" nillable="true" type="tns:KyoMacAddrEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="KyoMacAddrEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="BOARD_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="MAC_ADDRESS" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UPDATE_TIME" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="KyoTestLogFindByMac">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="macAddr" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoTestLogFindByMacResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoTestLogFindByMacResult" type="tns:ArrayOfKyoMacAddrEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoTestLogSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:KyoMacAddrEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="KyoTestLogSaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="KyoTestLogSaveResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ResultEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="status" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="message" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="LeaderConfirmSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:LeaderConfirmsEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LeaderConfirmsEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="USER_ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ERROR" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CONFIRM_CONTENT" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CUSTOMER_ID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UPD_TIME" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="LeaderConfirmSaveResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTestAudit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestAuditResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="GetTestAuditResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTestAudit">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTestAuditResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="FGFind">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="asmNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FGFindResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FGFindResult" type="tns:VNFGEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="VNFGEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ASM_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PCBA1" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PCBA2" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UPD_TIME" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="OQCTestLogCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="OQCTestLogCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogTotal">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogTotalResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="OQCTestLogTotalResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:tbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="tbl_test_logEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ProductionID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="LineID" nillable="true" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="MacAddress" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BoxID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OperatorCode" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="QA_Check" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="DateCheck" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="1" maxOccurs="1" name="Shipping" nillable="true" type="s:boolean" />
+              <s:element minOccurs="1" maxOccurs="1" name="Date_Shipping" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Judge" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModelName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ModelNO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="WorkingOrder" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PO_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OldBoxID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BoxIDCheck" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OperatorCheck" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="OperatorNameCheck" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="OQCCheckDate" nillable="true" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Delivery_No" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Soft_Ver" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="OQCTestLogSaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogSaveResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogUpdate">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:tbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogUpdateResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogUpdateResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShippingRevert">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShippingRevertResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ShippingRevertResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShippingGetByBoxID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ShippingGetByBoxIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ShippingGetByBoxIDResult" type="tns:ArrayOfTbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTbl_test_logEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="tbl_test_logEntity" nillable="true" type="tns:tbl_test_logEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="OQCTestLogExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="OQCTestLogExistResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogFind">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogFindResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogFindResult" type="tns:tbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogGetByBoxID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogGetByBoxIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogGetByBoxIDResult" type="tns:ArrayOfTbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogFindByBoxID">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogFindByBoxIDResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogFindByBoxIDResult" type="tns:ArrayOfTbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogGetList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogGetListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogGetListResult" type="tns:ArrayOfTbl_test_logEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogRemove">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OQCTestLogRemoveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="OQCTestLogRemoveResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NGDataExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="NGDataExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="NGDataExistResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RankledConfirm">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RankledConfirmResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="RankledConfirmResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindRankContent">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindRankContentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindRankContentResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:ViPackingLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ViPackingLogEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="ID" type="s:int" />
+              <s:element minOccurs="0" maxOccurs="1" name="ProductionID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BoxID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BoardNo" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UpdateTime" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="Status" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Line" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="NamePC" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ShiftDate" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="Repair" nillable="true" type="s:boolean" />
+              <s:element minOccurs="0" maxOccurs="1" name="Station" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Wo_Sap" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Wo_Mes" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="ViPackingSaveResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="ViPackingExist">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingExistResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ViPackingExistResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCount">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCountResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ViPackingCountResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCountByWo">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="wo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="product" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lineID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCountByWoResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ViPackingCountByWoResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCountWithoutBox">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="productId" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="shiftDate" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingCountWithoutBoxResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ViPackingCountWithoutBoxResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingIsRepair">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boxId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingIsRepairResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ViPackingIsRepairResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingFind">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNoOrBoxID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ViPackingFindResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ViPackingFindResult" type="tns:ArrayOfViPackingLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfViPackingLogEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ViPackingLogEntity" nillable="true" type="tns:ViPackingLogEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="FindFeeder">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="feederNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindFeederResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindFeederResult" type="tns:FeederEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="FeederEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="FeederNo" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="FeederName" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Vendor" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="DatePlan" nillable="true" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="FindTokusai">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="emNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="partFm" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="partTo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FindTokusaiResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FindTokusaiResult" type="tns:ArrayOfWH_TokusaiEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfWH_TokusaiEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="WH_TokusaiEntity" nillable="true" type="tns:WH_TokusaiEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="WH_TokusaiEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="EM_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PART_FM" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PART_TO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PRODUCT_ID" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="OS_QTY" type="s:int" />
+              <s:element minOccurs="1" maxOccurs="1" name="UPD_DATE" type="s:dateTime" />
+              <s:element minOccurs="0" maxOccurs="1" name="UPD_NAME" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="FixtureFind">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="productId" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FixtureFindResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FixtureFindResult" type="tns:ArrayOfFixtureEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfFixtureEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="FixtureEntity" nillable="true" type="tns:FixtureEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="FixtureEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Product_Id" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Fixture_No" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Station_No" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="Program_No" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="FixtureGetList">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="fixtureNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FixtureGetListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FixtureGetListResult" type="tns:ArrayOfFixtureEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FixtureSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:FixtureEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="FixtureSaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FixtureSaveResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRMGetList">
+        <s:complexType />
+      </s:element>
+      <s:element name="HRMGetListResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HRMGetListResult" type="tns:ArrayOfHRMEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfHRMEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="HRMEntity" nillable="true" type="tns:HRMEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HRMEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="STAFF_CODE" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="LINE_ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PROCESS" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="UPD_TIME" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="HRMGetByStaffCode">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="staffCode" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRMGetByStaffCodeResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HRMGetByStaffCodeResult" type="tns:HRMEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRMSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:HRMEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="HRMSaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="HRMSaveResult" type="tns:ResultEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveTestLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:TestLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="TestLogEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BOARD_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="SUB_BOARD" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="ORDER_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="PRODUCT_ID" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="HOST_NAME" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="CLIENT_NAME" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="STATION_NO" type="s:string" />
+              <s:element minOccurs="1" maxOccurs="1" name="TEST_TIME" type="s:dateTime" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="SaveTestLogResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GetTestLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTestLogResult" type="tns:ArrayOfTestLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="ArrayOfTestLogEntity">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="TestLogEntity" nillable="true" type="tns:TestLogEntity" />
+        </s:sequence>
+      </s:complexType>
+      <s:element name="GetLastTestLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="boardNo" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastTestLogResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastTestLogResult" type="tns:TestLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestLogBySubboard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="subBoard" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetTestLogBySubboardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetTestLogBySubboardResult" type="tns:ArrayOfTestLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastTestLogBySubboard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="subBoard" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="stationNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetLastTestLogBySubboardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="GetLastTestLogBySubboardResult" type="tns:TestLogEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LaserGetBoard">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="orderNo" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LaserGetBoardResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="LaserGetBoardResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="LaserSave">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="key" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="entity" type="tns:LaserInitEntity" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="LaserInitEntity">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:BaseEntity">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="ORDER_NO" type="s:string" />
+              <s:element minOccurs="0" maxOccurs="1" name="BOARD_NO" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:element name="LaserSaveResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="TestService">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="productID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="TestServiceResponse">
+        <s:complexType />
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="KyoCheckMacSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoCheckMac" />
+  </wsdl:message>
+  <wsdl:message name="KyoCheckMacSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoCheckMacResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetQtySoapIn">
+    <wsdl:part name="parameters" element="tns:KyoGetQty" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetQtySoapOut">
+    <wsdl:part name="parameters" element="tns:KyoGetQtyResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetMacSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoGetMac" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetMacSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoGetMacResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetBoardSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoGetBoard" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetBoardSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoGetBoardResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoSaveBoardSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoSaveBoard" />
+  </wsdl:message>
+  <wsdl:message name="KyoSaveBoardSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoSaveBoardResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoRemoveBoardSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoRemoveBoard" />
+  </wsdl:message>
+  <wsdl:message name="KyoRemoveBoardSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoRemoveBoardResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetInitSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoGetInit" />
+  </wsdl:message>
+  <wsdl:message name="KyoGetInitSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoGetInitResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogFindSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoTestLogFind" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogFindSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoTestLogFindResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogFindByMacSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoTestLogFindByMac" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogFindByMacSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoTestLogFindByMacResponse" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:KyoTestLogSave" />
+  </wsdl:message>
+  <wsdl:message name="KyoTestLogSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:KyoTestLogSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="LeaderConfirmSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:LeaderConfirmSave" />
+  </wsdl:message>
+  <wsdl:message name="LeaderConfirmSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:LeaderConfirmSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTestAuditSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTestAudit" />
+  </wsdl:message>
+  <wsdl:message name="GetTestAuditSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTestAuditResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveTestAuditSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTestAudit" />
+  </wsdl:message>
+  <wsdl:message name="SaveTestAuditSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTestAuditResponse" />
+  </wsdl:message>
+  <wsdl:message name="FGFindSoapIn">
+    <wsdl:part name="parameters" element="tns:FGFind" />
+  </wsdl:message>
+  <wsdl:message name="FGFindSoapOut">
+    <wsdl:part name="parameters" element="tns:FGFindResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogCountSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogCount" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogCountSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogTotalSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogTotal" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogTotalSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogTotalResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogSave" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogUpdateSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogUpdate" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogUpdateSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogUpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ShippingRevertSoapIn">
+    <wsdl:part name="parameters" element="tns:ShippingRevert" />
+  </wsdl:message>
+  <wsdl:message name="ShippingRevertSoapOut">
+    <wsdl:part name="parameters" element="tns:ShippingRevertResponse" />
+  </wsdl:message>
+  <wsdl:message name="ShippingGetByBoxIDSoapIn">
+    <wsdl:part name="parameters" element="tns:ShippingGetByBoxID" />
+  </wsdl:message>
+  <wsdl:message name="ShippingGetByBoxIDSoapOut">
+    <wsdl:part name="parameters" element="tns:ShippingGetByBoxIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogExistSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogExist" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogExistSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogFindSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogFind" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogFindSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogFindResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogGetByBoxIDSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogGetByBoxID" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogGetByBoxIDSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogGetByBoxIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogFindByBoxIDSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogFindByBoxID" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogFindByBoxIDSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogFindByBoxIDResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogGetListSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogGetList" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogGetListSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogGetListResponse" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogRemoveSoapIn">
+    <wsdl:part name="parameters" element="tns:OQCTestLogRemove" />
+  </wsdl:message>
+  <wsdl:message name="OQCTestLogRemoveSoapOut">
+    <wsdl:part name="parameters" element="tns:OQCTestLogRemoveResponse" />
+  </wsdl:message>
+  <wsdl:message name="NGDataExistSoapIn">
+    <wsdl:part name="parameters" element="tns:NGDataExist" />
+  </wsdl:message>
+  <wsdl:message name="NGDataExistSoapOut">
+    <wsdl:part name="parameters" element="tns:NGDataExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="RankledConfirmSoapIn">
+    <wsdl:part name="parameters" element="tns:RankledConfirm" />
+  </wsdl:message>
+  <wsdl:message name="RankledConfirmSoapOut">
+    <wsdl:part name="parameters" element="tns:RankledConfirmResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindRankContentSoapIn">
+    <wsdl:part name="parameters" element="tns:FindRankContent" />
+  </wsdl:message>
+  <wsdl:message name="FindRankContentSoapOut">
+    <wsdl:part name="parameters" element="tns:FindRankContentResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingSave" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingExistSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingExist" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingExistSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingExistResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingCount" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingCountResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountByWoSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingCountByWo" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountByWoSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingCountByWoResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountWithoutBoxSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingCountWithoutBox" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingCountWithoutBoxSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingCountWithoutBoxResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingIsRepairSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingIsRepair" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingIsRepairSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingIsRepairResponse" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingFindSoapIn">
+    <wsdl:part name="parameters" element="tns:ViPackingFind" />
+  </wsdl:message>
+  <wsdl:message name="ViPackingFindSoapOut">
+    <wsdl:part name="parameters" element="tns:ViPackingFindResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindFeederSoapIn">
+    <wsdl:part name="parameters" element="tns:FindFeeder" />
+  </wsdl:message>
+  <wsdl:message name="FindFeederSoapOut">
+    <wsdl:part name="parameters" element="tns:FindFeederResponse" />
+  </wsdl:message>
+  <wsdl:message name="FindTokusaiSoapIn">
+    <wsdl:part name="parameters" element="tns:FindTokusai" />
+  </wsdl:message>
+  <wsdl:message name="FindTokusaiSoapOut">
+    <wsdl:part name="parameters" element="tns:FindTokusaiResponse" />
+  </wsdl:message>
+  <wsdl:message name="FixtureFindSoapIn">
+    <wsdl:part name="parameters" element="tns:FixtureFind" />
+  </wsdl:message>
+  <wsdl:message name="FixtureFindSoapOut">
+    <wsdl:part name="parameters" element="tns:FixtureFindResponse" />
+  </wsdl:message>
+  <wsdl:message name="FixtureGetListSoapIn">
+    <wsdl:part name="parameters" element="tns:FixtureGetList" />
+  </wsdl:message>
+  <wsdl:message name="FixtureGetListSoapOut">
+    <wsdl:part name="parameters" element="tns:FixtureGetListResponse" />
+  </wsdl:message>
+  <wsdl:message name="FixtureSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:FixtureSave" />
+  </wsdl:message>
+  <wsdl:message name="FixtureSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:FixtureSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRMGetListSoapIn">
+    <wsdl:part name="parameters" element="tns:HRMGetList" />
+  </wsdl:message>
+  <wsdl:message name="HRMGetListSoapOut">
+    <wsdl:part name="parameters" element="tns:HRMGetListResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRMGetByStaffCodeSoapIn">
+    <wsdl:part name="parameters" element="tns:HRMGetByStaffCode" />
+  </wsdl:message>
+  <wsdl:message name="HRMGetByStaffCodeSoapOut">
+    <wsdl:part name="parameters" element="tns:HRMGetByStaffCodeResponse" />
+  </wsdl:message>
+  <wsdl:message name="HRMSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:HRMSave" />
+  </wsdl:message>
+  <wsdl:message name="HRMSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:HRMSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="SaveTestLogSoapIn">
+    <wsdl:part name="parameters" element="tns:SaveTestLog" />
+  </wsdl:message>
+  <wsdl:message name="SaveTestLogSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveTestLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTestLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTestLog" />
+  </wsdl:message>
+  <wsdl:message name="GetTestLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTestLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastTestLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastTestLog" />
+  </wsdl:message>
+  <wsdl:message name="GetLastTestLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastTestLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetTestLogBySubboardSoapIn">
+    <wsdl:part name="parameters" element="tns:GetTestLogBySubboard" />
+  </wsdl:message>
+  <wsdl:message name="GetTestLogBySubboardSoapOut">
+    <wsdl:part name="parameters" element="tns:GetTestLogBySubboardResponse" />
+  </wsdl:message>
+  <wsdl:message name="GetLastTestLogBySubboardSoapIn">
+    <wsdl:part name="parameters" element="tns:GetLastTestLogBySubboard" />
+  </wsdl:message>
+  <wsdl:message name="GetLastTestLogBySubboardSoapOut">
+    <wsdl:part name="parameters" element="tns:GetLastTestLogBySubboardResponse" />
+  </wsdl:message>
+  <wsdl:message name="LaserGetBoardSoapIn">
+    <wsdl:part name="parameters" element="tns:LaserGetBoard" />
+  </wsdl:message>
+  <wsdl:message name="LaserGetBoardSoapOut">
+    <wsdl:part name="parameters" element="tns:LaserGetBoardResponse" />
+  </wsdl:message>
+  <wsdl:message name="LaserSaveSoapIn">
+    <wsdl:part name="parameters" element="tns:LaserSave" />
+  </wsdl:message>
+  <wsdl:message name="LaserSaveSoapOut">
+    <wsdl:part name="parameters" element="tns:LaserSaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="TestServiceSoapIn">
+    <wsdl:part name="parameters" element="tns:TestService" />
+  </wsdl:message>
+  <wsdl:message name="TestServiceSoapOut">
+    <wsdl:part name="parameters" element="tns:TestServiceResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ERPWebServiceSoap">
+    <wsdl:operation name="KyoCheckMac">
+      <wsdl:input message="tns:KyoCheckMacSoapIn" />
+      <wsdl:output message="tns:KyoCheckMacSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetQty">
+      <wsdl:input message="tns:KyoGetQtySoapIn" />
+      <wsdl:output message="tns:KyoGetQtySoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetMac">
+      <wsdl:input message="tns:KyoGetMacSoapIn" />
+      <wsdl:output message="tns:KyoGetMacSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetBoard">
+      <wsdl:input message="tns:KyoGetBoardSoapIn" />
+      <wsdl:output message="tns:KyoGetBoardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoSaveBoard">
+      <wsdl:input message="tns:KyoSaveBoardSoapIn" />
+      <wsdl:output message="tns:KyoSaveBoardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoRemoveBoard">
+      <wsdl:input message="tns:KyoRemoveBoardSoapIn" />
+      <wsdl:output message="tns:KyoRemoveBoardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetInit">
+      <wsdl:input message="tns:KyoGetInitSoapIn" />
+      <wsdl:output message="tns:KyoGetInitSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFind">
+      <wsdl:input message="tns:KyoTestLogFindSoapIn" />
+      <wsdl:output message="tns:KyoTestLogFindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFindByMac">
+      <wsdl:input message="tns:KyoTestLogFindByMacSoapIn" />
+      <wsdl:output message="tns:KyoTestLogFindByMacSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogSave">
+      <wsdl:input message="tns:KyoTestLogSaveSoapIn" />
+      <wsdl:output message="tns:KyoTestLogSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LeaderConfirmSave">
+      <wsdl:input message="tns:LeaderConfirmSaveSoapIn" />
+      <wsdl:output message="tns:LeaderConfirmSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestAudit">
+      <wsdl:input message="tns:GetTestAuditSoapIn" />
+      <wsdl:output message="tns:GetTestAuditSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestAudit">
+      <wsdl:input message="tns:SaveTestAuditSoapIn" />
+      <wsdl:output message="tns:SaveTestAuditSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FGFind">
+      <wsdl:input message="tns:FGFindSoapIn" />
+      <wsdl:output message="tns:FGFindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogCount">
+      <wsdl:input message="tns:OQCTestLogCountSoapIn" />
+      <wsdl:output message="tns:OQCTestLogCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogTotal">
+      <wsdl:input message="tns:OQCTestLogTotalSoapIn" />
+      <wsdl:output message="tns:OQCTestLogTotalSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogSave">
+      <wsdl:input message="tns:OQCTestLogSaveSoapIn" />
+      <wsdl:output message="tns:OQCTestLogSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogUpdate">
+      <wsdl:input message="tns:OQCTestLogUpdateSoapIn" />
+      <wsdl:output message="tns:OQCTestLogUpdateSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ShippingRevert">
+      <wsdl:input message="tns:ShippingRevertSoapIn" />
+      <wsdl:output message="tns:ShippingRevertSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ShippingGetByBoxID">
+      <wsdl:input message="tns:ShippingGetByBoxIDSoapIn" />
+      <wsdl:output message="tns:ShippingGetByBoxIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogExist">
+      <wsdl:input message="tns:OQCTestLogExistSoapIn" />
+      <wsdl:output message="tns:OQCTestLogExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFind">
+      <wsdl:input message="tns:OQCTestLogFindSoapIn" />
+      <wsdl:output message="tns:OQCTestLogFindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetByBoxID">
+      <wsdl:input message="tns:OQCTestLogGetByBoxIDSoapIn" />
+      <wsdl:output message="tns:OQCTestLogGetByBoxIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFindByBoxID">
+      <wsdl:input message="tns:OQCTestLogFindByBoxIDSoapIn" />
+      <wsdl:output message="tns:OQCTestLogFindByBoxIDSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetList">
+      <wsdl:input message="tns:OQCTestLogGetListSoapIn" />
+      <wsdl:output message="tns:OQCTestLogGetListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogRemove">
+      <wsdl:input message="tns:OQCTestLogRemoveSoapIn" />
+      <wsdl:output message="tns:OQCTestLogRemoveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="NGDataExist">
+      <wsdl:input message="tns:NGDataExistSoapIn" />
+      <wsdl:output message="tns:NGDataExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RankledConfirm">
+      <wsdl:input message="tns:RankledConfirmSoapIn" />
+      <wsdl:output message="tns:RankledConfirmSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindRankContent">
+      <wsdl:input message="tns:FindRankContentSoapIn" />
+      <wsdl:output message="tns:FindRankContentSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingSave">
+      <wsdl:input message="tns:ViPackingSaveSoapIn" />
+      <wsdl:output message="tns:ViPackingSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingExist">
+      <wsdl:input message="tns:ViPackingExistSoapIn" />
+      <wsdl:output message="tns:ViPackingExistSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCount">
+      <wsdl:input message="tns:ViPackingCountSoapIn" />
+      <wsdl:output message="tns:ViPackingCountSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountByWo">
+      <wsdl:input message="tns:ViPackingCountByWoSoapIn" />
+      <wsdl:output message="tns:ViPackingCountByWoSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountWithoutBox">
+      <wsdl:input message="tns:ViPackingCountWithoutBoxSoapIn" />
+      <wsdl:output message="tns:ViPackingCountWithoutBoxSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingIsRepair">
+      <wsdl:input message="tns:ViPackingIsRepairSoapIn" />
+      <wsdl:output message="tns:ViPackingIsRepairSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingFind">
+      <wsdl:input message="tns:ViPackingFindSoapIn" />
+      <wsdl:output message="tns:ViPackingFindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindFeeder">
+      <wsdl:input message="tns:FindFeederSoapIn" />
+      <wsdl:output message="tns:FindFeederSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FindTokusai">
+      <wsdl:input message="tns:FindTokusaiSoapIn" />
+      <wsdl:output message="tns:FindTokusaiSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FixtureFind">
+      <wsdl:input message="tns:FixtureFindSoapIn" />
+      <wsdl:output message="tns:FixtureFindSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FixtureGetList">
+      <wsdl:input message="tns:FixtureGetListSoapIn" />
+      <wsdl:output message="tns:FixtureGetListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="FixtureSave">
+      <wsdl:input message="tns:FixtureSaveSoapIn" />
+      <wsdl:output message="tns:FixtureSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetList">
+      <wsdl:input message="tns:HRMGetListSoapIn" />
+      <wsdl:output message="tns:HRMGetListSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetByStaffCode">
+      <wsdl:input message="tns:HRMGetByStaffCodeSoapIn" />
+      <wsdl:output message="tns:HRMGetByStaffCodeSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="HRMSave">
+      <wsdl:input message="tns:HRMSaveSoapIn" />
+      <wsdl:output message="tns:HRMSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestLog">
+      <wsdl:input message="tns:SaveTestLogSoapIn" />
+      <wsdl:output message="tns:SaveTestLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLog">
+      <wsdl:input message="tns:GetTestLogSoapIn" />
+      <wsdl:output message="tns:GetTestLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLog">
+      <wsdl:input message="tns:GetLastTestLogSoapIn" />
+      <wsdl:output message="tns:GetLastTestLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLogBySubboard">
+      <wsdl:input message="tns:GetTestLogBySubboardSoapIn" />
+      <wsdl:output message="tns:GetTestLogBySubboardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLogBySubboard">
+      <wsdl:input message="tns:GetLastTestLogBySubboardSoapIn" />
+      <wsdl:output message="tns:GetLastTestLogBySubboardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LaserGetBoard">
+      <wsdl:input message="tns:LaserGetBoardSoapIn" />
+      <wsdl:output message="tns:LaserGetBoardSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="LaserSave">
+      <wsdl:input message="tns:LaserSaveSoapIn" />
+      <wsdl:output message="tns:LaserSaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="TestService">
+      <wsdl:input message="tns:TestServiceSoapIn" />
+      <wsdl:output message="tns:TestServiceSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ERPWebServiceSoap" type="tns:ERPWebServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="KyoCheckMac">
+      <soap:operation soapAction="http://tempuri.org/KyoCheckMac" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetQty">
+      <soap:operation soapAction="http://tempuri.org/KyoGetQty" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetMac">
+      <soap:operation soapAction="http://tempuri.org/KyoGetMac" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetBoard">
+      <soap:operation soapAction="http://tempuri.org/KyoGetBoard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoSaveBoard">
+      <soap:operation soapAction="http://tempuri.org/KyoSaveBoard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoRemoveBoard">
+      <soap:operation soapAction="http://tempuri.org/KyoRemoveBoard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetInit">
+      <soap:operation soapAction="http://tempuri.org/KyoGetInit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFind">
+      <soap:operation soapAction="http://tempuri.org/KyoTestLogFind" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFindByMac">
+      <soap:operation soapAction="http://tempuri.org/KyoTestLogFindByMac" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogSave">
+      <soap:operation soapAction="http://tempuri.org/KyoTestLogSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LeaderConfirmSave">
+      <soap:operation soapAction="http://tempuri.org/LeaderConfirmSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestAudit">
+      <soap:operation soapAction="http://tempuri.org/GetTestAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestAudit">
+      <soap:operation soapAction="http://tempuri.org/SaveTestAudit" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FGFind">
+      <soap:operation soapAction="http://tempuri.org/FGFind" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogCount">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogTotal">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogTotal" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogSave">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogUpdate">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogUpdate" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShippingRevert">
+      <soap:operation soapAction="http://tempuri.org/ShippingRevert" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShippingGetByBoxID">
+      <soap:operation soapAction="http://tempuri.org/ShippingGetByBoxID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogExist">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFind">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogFind" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetByBoxID">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogGetByBoxID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFindByBoxID">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogFindByBoxID" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetList">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogGetList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogRemove">
+      <soap:operation soapAction="http://tempuri.org/OQCTestLogRemove" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NGDataExist">
+      <soap:operation soapAction="http://tempuri.org/NGDataExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RankledConfirm">
+      <soap:operation soapAction="http://tempuri.org/RankledConfirm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindRankContent">
+      <soap:operation soapAction="http://tempuri.org/FindRankContent" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingSave">
+      <soap:operation soapAction="http://tempuri.org/ViPackingSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingExist">
+      <soap:operation soapAction="http://tempuri.org/ViPackingExist" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCount">
+      <soap:operation soapAction="http://tempuri.org/ViPackingCount" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountByWo">
+      <soap:operation soapAction="http://tempuri.org/ViPackingCountByWo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountWithoutBox">
+      <soap:operation soapAction="http://tempuri.org/ViPackingCountWithoutBox" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingIsRepair">
+      <soap:operation soapAction="http://tempuri.org/ViPackingIsRepair" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingFind">
+      <soap:operation soapAction="http://tempuri.org/ViPackingFind" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindFeeder">
+      <soap:operation soapAction="http://tempuri.org/FindFeeder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindTokusai">
+      <soap:operation soapAction="http://tempuri.org/FindTokusai" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureFind">
+      <soap:operation soapAction="http://tempuri.org/FixtureFind" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureGetList">
+      <soap:operation soapAction="http://tempuri.org/FixtureGetList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureSave">
+      <soap:operation soapAction="http://tempuri.org/FixtureSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetList">
+      <soap:operation soapAction="http://tempuri.org/HRMGetList" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetByStaffCode">
+      <soap:operation soapAction="http://tempuri.org/HRMGetByStaffCode" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMSave">
+      <soap:operation soapAction="http://tempuri.org/HRMSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestLog">
+      <soap:operation soapAction="http://tempuri.org/SaveTestLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLog">
+      <soap:operation soapAction="http://tempuri.org/GetTestLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLog">
+      <soap:operation soapAction="http://tempuri.org/GetLastTestLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLogBySubboard">
+      <soap:operation soapAction="http://tempuri.org/GetTestLogBySubboard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLogBySubboard">
+      <soap:operation soapAction="http://tempuri.org/GetLastTestLogBySubboard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaserGetBoard">
+      <soap:operation soapAction="http://tempuri.org/LaserGetBoard" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaserSave">
+      <soap:operation soapAction="http://tempuri.org/LaserSave" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestService">
+      <soap:operation soapAction="http://tempuri.org/TestService" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ERPWebServiceSoap12" type="tns:ERPWebServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="KyoCheckMac">
+      <soap12:operation soapAction="http://tempuri.org/KyoCheckMac" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetQty">
+      <soap12:operation soapAction="http://tempuri.org/KyoGetQty" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetMac">
+      <soap12:operation soapAction="http://tempuri.org/KyoGetMac" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetBoard">
+      <soap12:operation soapAction="http://tempuri.org/KyoGetBoard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoSaveBoard">
+      <soap12:operation soapAction="http://tempuri.org/KyoSaveBoard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoRemoveBoard">
+      <soap12:operation soapAction="http://tempuri.org/KyoRemoveBoard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoGetInit">
+      <soap12:operation soapAction="http://tempuri.org/KyoGetInit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFind">
+      <soap12:operation soapAction="http://tempuri.org/KyoTestLogFind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogFindByMac">
+      <soap12:operation soapAction="http://tempuri.org/KyoTestLogFindByMac" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KyoTestLogSave">
+      <soap12:operation soapAction="http://tempuri.org/KyoTestLogSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LeaderConfirmSave">
+      <soap12:operation soapAction="http://tempuri.org/LeaderConfirmSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestAudit">
+      <soap12:operation soapAction="http://tempuri.org/GetTestAudit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestAudit">
+      <soap12:operation soapAction="http://tempuri.org/SaveTestAudit" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FGFind">
+      <soap12:operation soapAction="http://tempuri.org/FGFind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogCount">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogTotal">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogTotal" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogSave">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogUpdate">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogUpdate" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShippingRevert">
+      <soap12:operation soapAction="http://tempuri.org/ShippingRevert" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ShippingGetByBoxID">
+      <soap12:operation soapAction="http://tempuri.org/ShippingGetByBoxID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogExist">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFind">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogFind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetByBoxID">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogGetByBoxID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogFindByBoxID">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogFindByBoxID" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogGetList">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogGetList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OQCTestLogRemove">
+      <soap12:operation soapAction="http://tempuri.org/OQCTestLogRemove" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="NGDataExist">
+      <soap12:operation soapAction="http://tempuri.org/NGDataExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RankledConfirm">
+      <soap12:operation soapAction="http://tempuri.org/RankledConfirm" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindRankContent">
+      <soap12:operation soapAction="http://tempuri.org/FindRankContent" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingSave">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingExist">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingExist" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCount">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingCount" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountByWo">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingCountByWo" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingCountWithoutBox">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingCountWithoutBox" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingIsRepair">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingIsRepair" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ViPackingFind">
+      <soap12:operation soapAction="http://tempuri.org/ViPackingFind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindFeeder">
+      <soap12:operation soapAction="http://tempuri.org/FindFeeder" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FindTokusai">
+      <soap12:operation soapAction="http://tempuri.org/FindTokusai" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureFind">
+      <soap12:operation soapAction="http://tempuri.org/FixtureFind" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureGetList">
+      <soap12:operation soapAction="http://tempuri.org/FixtureGetList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="FixtureSave">
+      <soap12:operation soapAction="http://tempuri.org/FixtureSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetList">
+      <soap12:operation soapAction="http://tempuri.org/HRMGetList" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMGetByStaffCode">
+      <soap12:operation soapAction="http://tempuri.org/HRMGetByStaffCode" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="HRMSave">
+      <soap12:operation soapAction="http://tempuri.org/HRMSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveTestLog">
+      <soap12:operation soapAction="http://tempuri.org/SaveTestLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLog">
+      <soap12:operation soapAction="http://tempuri.org/GetTestLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLog">
+      <soap12:operation soapAction="http://tempuri.org/GetLastTestLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTestLogBySubboard">
+      <soap12:operation soapAction="http://tempuri.org/GetTestLogBySubboard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetLastTestLogBySubboard">
+      <soap12:operation soapAction="http://tempuri.org/GetLastTestLogBySubboard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaserGetBoard">
+      <soap12:operation soapAction="http://tempuri.org/LaserGetBoard" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LaserSave">
+      <soap12:operation soapAction="http://tempuri.org/LaserSave" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="TestService">
+      <soap12:operation soapAction="http://tempuri.org/TestService" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ERPWebService">
+    <wsdl:port name="ERPWebServiceSoap" binding="tns:ERPWebServiceSoap">
+      <soap:address location="http://172.28.10.17:99/Service/ERPWebService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ERPWebServiceSoap12" binding="tns:ERPWebServiceSoap12">
+      <soap12:address location="http://172.28.10.17:99/Service/ERPWebService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

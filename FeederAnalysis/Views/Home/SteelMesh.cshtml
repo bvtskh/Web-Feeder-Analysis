@@ -1,0 +1,227 @@
+﻿@model IEnumerable<FeederAnalysis.Models.StellMeshEntity>
+
+@{
+    Layout = null;
+    int no = 0;
+}
+@*StellMesh*@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta http-equiv="refresh" content="300" />
+    <title>Feeder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/Content/styles/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/buttons.dataTables.min.css" rel="stylesheet" />
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Scripts/dataTables.buttons.min.js"></script>
+    <style type="text/css">
+        * {
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Roboto',Helvetica,Arial,sans-serif;
+            color: #000000;
+        }
+
+        th, td {
+            text-align: left;
+            font-size: 13px;
+        }
+
+        .bounce-enter-active {
+            animation: bounce-in .5s;
+        }
+
+        .ok {
+            background-color: green;
+            color: white;
+        }
+
+        .ng {
+            background-color: red;
+            color: white;
+        }
+
+        .wr {
+            background-color: orange;
+            color: white;
+        }
+
+        #main-hd {
+            height: 55px;
+            background-color: #fff;
+        }
+
+        #main-hd-title {
+            line-height: 55px;
+            top: 0;
+            height: 55px;
+            padding: 0 0 0 30px;
+            font-family: 'Roboto',Helvetica,Arial,sans-serif;
+            float: left;
+        }
+
+            #main-hd-title img {
+                float: left;
+                height: 50px;
+                margin-top: 5px;
+            }
+
+            #main-hd-title a {
+                cursor: pointer;
+                font-size: 18px;
+                font-weight: bold;
+                color: #444;
+                font-family: 'Roboto',Helvetica,Arial,sans-serif;
+            }
+
+        #topnav li.list {
+            float: left;
+            display: inline;
+            margin: 3px 12px 0px 0px;
+        }
+
+        #topnav li a {
+            cursor: pointer;
+            display: inline;
+            float: left;
+            height: 46px;
+            padding: 5px 7px 0px;
+            text-decoration: none;
+            text-shadow: 0px -1px rgba(0,0,0,0.2);
+            -webkit-border-radius: 3px;
+            border-radius: 3px;
+            overflow: hidden;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            color: #444;
+        }
+
+            #topnav li a span {
+                display: block;
+                margin: 0px auto 0px;
+                width: 25px;
+                height: 26px;
+                overflow: hidden;
+            }
+
+                #topnav li a span i {
+                    font-size: 22px;
+                }
+    </style>
+
+</head>
+<body>
+    <div id="main-hd">
+        <div id="main-hd-title">
+            <img src="~/Content/images/logo.png" /><a>CÔNG TY TNHH ĐIỆN TỬ UMC VIỆT NAM</a>
+        </div>
+        <div style="float: right">
+            <ul id="topnav">
+                <li class="list">
+                    <a href="/">
+                        <span><i class="fa fa-home"></i></span>
+                        Feeder
+                    </a>
+                    <a href="@Url.Action("SteelMesh")">
+                        <span><i class="fa fa-tag"></i></span>
+                        Steel Mesh
+                    </a>
+                    <a href="@Url.Action("Sqeegee")">
+                        <span><i class="fa fa-tag"></i></span>
+                        Sqeegee
+                    </a>
+                </li>
+                <li class="list" id="UserSetting">
+                    <a href="#">
+                        <span><i class="fa fa-history"></i></span>
+                        History
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <hr />
+        <table class="table table-bordered" id="feeder">
+            <thead class="thead-dark">
+                <tr>
+                    @*<th>No</th>*@
+                    <th>Mesh No</th>
+                    <th>Max Use Count</th>
+                    <th>Side</th>
+                    <th>Load Time</th>
+                    <th>Material Order</th>
+                    <th>Line Start</th>
+                    <th>Product</th>
+                    <th>Order No</th>
+                    <th>Line</th>
+                    <th>Qty</th>
+                    <th>Customer</th>
+                    <th>Version</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    no = no + 1;
+                <tr>
+                    @*<td>@no</td>*@
+                    <td>@Html.DisplayFor(model => item.MESH_NO)</td>
+                    <td>@Html.DisplayFor(model => item.MAX_USE_COUNT)</td>
+                    <td>@Html.DisplayFor(model => item.SIDE)</td>
+                    <td>@Html.DisplayFor(model => item.LOAD_TIME)</td>
+                    <td>@Html.DisplayFor(model => item.MATERIAL_ORDER_ID)</td>
+                    <td>@Html.DisplayFor(model => item.START_TIME)</td>
+                    <td>@Html.DisplayFor(model => item.PRODUCT_ID)</td>
+                    <td>@Html.DisplayFor(model => item.PRODUCTION_ORDER_ID)</td>
+                    <td>@Html.DisplayFor(model => item.LINE_ID)</td>
+                    <td>@Html.DisplayFor(model => item.QUANTITY)</td>
+                    <td>@Html.DisplayFor(model => item.CUSTOMER_ID)</td>
+                    <td>@Html.DisplayFor(model => item.VERSION)</td>
+                    @*@if (item.STATE == 3)
+        {
+            <td class="ng"><span>&#10060</span></td>
+        }
+        else if (item.STATE == 2)
+        {
+            <td class="wr"><span>&#9888;</span></td>
+        }
+        <td> @Html.DisplayFor(model => item.ABOUT)</td>*@
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <footer>
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+            © 2020 Copyright: PI-IT
+            @*<a href="http://172.28.10.17/"> umcvn.com</a>*@
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <script>
+        $(document).ready(function () {
+            $('#feeder').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf'
+                ]
+            });
+        });
+
+    </script>
+</body>
+
+</html>

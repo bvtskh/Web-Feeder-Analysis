@@ -1,0 +1,408 @@
+2022-09-12 09:07:14,003 [DefaultQuartzScheduler_Worker-1] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish 9/12/2022 9:07:14 AM. Elap: 82044ms
+2022-09-12 09:07:55,156 [DefaultQuartzScheduler_Worker-2] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish 9/12/2022 9:07:55 AM. Elap: 4664ms
+2022-09-12 09:09:53,868 [DefaultQuartzScheduler_Worker-3] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish 9/12/2022 9:09:53 AM. Elap: 3434ms
+2022-09-12 09:11:55,104 [DefaultQuartzScheduler_Worker-4] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish 9/12/2022 9:11:55 AM. Elap: 4646ms
+2022-09-12 09:13:54,933 [DefaultQuartzScheduler_Worker-5] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish 9/12/2022 9:13:54 AM. Elap: 3893ms
+2022-09-12 09:18:30,165 [DefaultQuartzScheduler_Worker-1] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 56347 ms
+2022-09-12 09:20:38,235 [DefaultQuartzScheduler_Worker-2] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 64951 ms
+2022-09-12 09:22:29,814 [DefaultQuartzScheduler_Worker-3] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 56493 ms
+2022-09-12 09:45:33,548 [DefaultQuartzScheduler_Worker-1] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 52416 ms
+2022-09-12 09:46:43,654 [DefaultQuartzScheduler_Worker-2] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 3643 ms
+2022-09-12 09:48:43,101 [DefaultQuartzScheduler_Worker-3] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 3093 ms
+2022-09-12 09:50:59,830 [DefaultQuartzScheduler_Worker-4] DEBUG FeederAnalysis.Business.UpnCache [(null)] - UMC-C999 clear cache.
+2022-09-12 09:51:31,124 [DefaultQuartzScheduler_Worker-4] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 51116 ms
+2022-09-12 10:08:01,905 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN6W8F1",
+  "PART_ID": "WA1-1619-000",
+  "MACHINE_SLOT": 8,
+  "MACHINE_ID": "AV131-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-A02-220911",
+  "LINE_ID": "A02"
+}
+2022-09-12 10:08:07,205 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN6F012",
+  "PART_ID": "WA1-1436-000",
+  "MACHINE_SLOT": 9,
+  "MACHINE_ID": "AV131-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-A02-220911",
+  "LINE_ID": "A02"
+}
+2022-09-12 10:08:14,939 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN6M4FU",
+  "PART_ID": "LG4758001C",
+  "MACHINE_SLOT": 5011,
+  "MACHINE_ID": "FX-3RL-5",
+  "PRODUCT_ID": "D00E31001",
+  "MATERIAL_ORDER_ID": "D00E31001-S26-A-220910",
+  "LINE_ID": "S26"
+}
+2022-09-12 10:08:17,431 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T4QX",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 220,
+  "MACHINE_ID": "G5-2",
+  "PRODUCT_ID": "D02A5Z042",
+  "MATERIAL_ORDER_ID": "D02A5Z042-S23-A-220911",
+  "LINE_ID": "S23"
+}
+2022-09-12 10:08:17,519 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8G5MQ",
+  "PART_ID": "D02B4X001A",
+  "MACHINE_SLOT": 225,
+  "MACHINE_ID": "G5-2",
+  "PRODUCT_ID": "D02A5Z042",
+  "MATERIAL_ORDER_ID": "D02A5Z042-S23-A-220911",
+  "LINE_ID": "S23"
+}
+2022-09-12 10:08:19,010 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T4PR",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 232,
+  "MACHINE_ID": "GXH-1S-3",
+  "PRODUCT_ID": "D02GMX001",
+  "MATERIAL_ORDER_ID": "D02GMX001-S15-A-220911",
+  "LINE_ID": "S15"
+}
+2022-09-12 10:08:19,092 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8JAX5",
+  "PART_ID": "D02D69001",
+  "MACHINE_SLOT": 236,
+  "MACHINE_ID": "GXH-1S-3",
+  "PRODUCT_ID": "D02GMX001",
+  "MATERIAL_ORDER_ID": "D02GMX001-S15-A-220911",
+  "LINE_ID": "S15"
+}
+2022-09-12 10:08:20,509 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8E9",
+  "PART_ID": "D001VA001B",
+  "MACHINE_SLOT": 319,
+  "MACHINE_ID": "GXH-1S-6",
+  "PRODUCT_ID": "D02GMX001",
+  "MATERIAL_ORDER_ID": "D02GMX001-S15-A-220911",
+  "LINE_ID": "S15"
+}
+2022-09-12 10:08:20,705 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN9A01D",
+  "PART_ID": "A51474001C",
+  "MACHINE_SLOT": 427,
+  "MACHINE_ID": "GXH-1S-6",
+  "PRODUCT_ID": "D02GMX001",
+  "MATERIAL_ORDER_ID": "D02GMX001-S15-A-220911",
+  "LINE_ID": "S15"
+}
+2022-09-12 10:08:23,158 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN94257",
+  "PART_ID": "D02B4X001A",
+  "MACHINE_SLOT": 341,
+  "MACHINE_ID": "GXH-3-3",
+  "PRODUCT_ID": "D02B4T033",
+  "MATERIAL_ORDER_ID": "D02B4T033-S22-A-220912",
+  "LINE_ID": "S22"
+}
+2022-09-12 10:08:23,417 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T4QH",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 438,
+  "MACHINE_ID": "GXH-3-3",
+  "PRODUCT_ID": "D02B4T033",
+  "MATERIAL_ORDER_ID": "D02B4T033-S22-A-220912",
+  "LINE_ID": "S22"
+}
+2022-09-12 10:08:24,402 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8HW",
+  "PART_ID": "A51474001C",
+  "MACHINE_SLOT": 1031,
+  "MACHINE_ID": "KE3020-1",
+  "PRODUCT_ID": "D00E31001",
+  "MATERIAL_ORDER_ID": "D00E31001-S26-A-220910",
+  "LINE_ID": "S26"
+}
+2022-09-12 10:08:24,745 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN7S04S",
+  "PART_ID": "VE5-2100-332",
+  "MACHINE_SLOT": 2,
+  "MACHINE_ID": "RG131-3",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-A103-220911",
+  "LINE_ID": "A103"
+}
+2022-09-12 10:08:25,985 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN6W87Q",
+  "PART_ID": "VE2-6960-475",
+  "MACHINE_SLOT": 29,
+  "MACHINE_ID": "YG100-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:26,049 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN5M8XD",
+  "PART_ID": "VE2-7080-225",
+  "MACHINE_SLOT": 30,
+  "MACHINE_ID": "YG100-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:27,705 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN977F7",
+  "PART_ID": "WA2-2292-000",
+  "MACHINE_SLOT": 17,
+  "MACHINE_ID": "YG100-4",
+  "PRODUCT_ID": "RM3-8541-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8541-000SS01-S04-220911",
+  "LINE_ID": "S04"
+}
+2022-09-12 10:08:29,280 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN89011",
+  "PART_ID": "VE3-0250-104",
+  "MACHINE_SLOT": 27,
+  "MACHINE_ID": "YG12-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:29,357 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN68297",
+  "PART_ID": "VE2-9980-103",
+  "MACHINE_SLOT": 30,
+  "MACHINE_ID": "YG12-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:29,522 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN889DA",
+  "PART_ID": "VE2-9980-222",
+  "MACHINE_SLOT": 41,
+  "MACHINE_ID": "YG12-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:32,060 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8G3EL",
+  "PART_ID": "907W 07032",
+  "MACHINE_SLOT": 139,
+  "MACHINE_ID": "YG200-10",
+  "PRODUCT_ID": "105K32185",
+  "MATERIAL_ORDER_ID": "105K32185-S31-220911",
+  "LINE_ID": "S31"
+}
+2022-09-12 10:08:33,143 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8N7WQ",
+  "PART_ID": "VE4-7020-472",
+  "MACHINE_SLOT": 32,
+  "MACHINE_ID": "YG200-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:33,241 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8V4VQ",
+  "PART_ID": "VE2-9980-152",
+  "MACHINE_SLOT": 37,
+  "MACHINE_ID": "YG200-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:33,359 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN88A48",
+  "PART_ID": "VE3-5460-180",
+  "MACHINE_SLOT": 107,
+  "MACHINE_ID": "YG200-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:33,532 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN725JG",
+  "PART_ID": "VE4-7880-105",
+  "MACHINE_SLOT": 124,
+  "MACHINE_ID": "YG200-2",
+  "PRODUCT_ID": "RM3-8491-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-8491-000SS01-S02-220911",
+  "LINE_ID": "S02"
+}
+2022-09-12 10:08:39,572 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T44S",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 141,
+  "MACHINE_ID": "YS24-5",
+  "PRODUCT_ID": "D00KHL002",
+  "MATERIAL_ORDER_ID": "D00KHL002-S35-B-220911",
+  "LINE_ID": "S35"
+}
+2022-09-12 10:08:40,135 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T460",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 27,
+  "MACHINE_ID": "YS24-8",
+  "PRODUCT_ID": "D012VF001",
+  "MATERIAL_ORDER_ID": "D012VF001-S36-B-220911",
+  "LINE_ID": "S36"
+}
+2022-09-12 10:08:44,503 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8V4V8",
+  "PART_ID": "VW2-3640-470",
+  "MACHINE_SLOT": 128,
+  "MACHINE_ID": "YSM20-13",
+  "PRODUCT_ID": "RM3-7271-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-7271-000SS01-S40-A-220911",
+  "LINE_ID": "S40"
+}
+2022-09-12 10:08:45,087 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W89K",
+  "PART_ID": "RK2-9981-000",
+  "MACHINE_SLOT": 103007,
+  "MACHINE_ID": "YSM20-14",
+  "PRODUCT_ID": "RM3-7271-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-7271-000SS01-S40-A-220911",
+  "LINE_ID": "S40"
+}
+2022-09-12 10:08:45,300 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T4PV",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 21,
+  "MACHINE_ID": "YSM20-15",
+  "PRODUCT_ID": "D02CTT071",
+  "MATERIAL_ORDER_ID": "D02CTT071-S27-A-220912",
+  "LINE_ID": "S27"
+}
+2022-09-12 10:08:46,242 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8E6",
+  "PART_ID": "D001VA001B",
+  "MACHINE_SLOT": 4,
+  "MACHINE_ID": "YSM20-16",
+  "PRODUCT_ID": "D02CTT071",
+  "MATERIAL_ORDER_ID": "D02CTT071-S27-A-220912",
+  "LINE_ID": "S27"
+}
+2022-09-12 10:08:47,525 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN9950X",
+  "PART_ID": "A51474001C",
+  "MACHINE_SLOT": 58,
+  "MACHINE_ID": "YSM20-17",
+  "PRODUCT_ID": "D02CTT071",
+  "MATERIAL_ORDER_ID": "D02CTT071-S27-A-220912",
+  "LINE_ID": "S27"
+}
+2022-09-12 10:08:47,610 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8DX",
+  "PART_ID": "A51032001C",
+  "MACHINE_SLOT": 106,
+  "MACHINE_ID": "YSM20-17",
+  "PRODUCT_ID": "D02CTT071",
+  "MATERIAL_ORDER_ID": "D02CTT071-S27-A-220912",
+  "LINE_ID": "S27"
+}
+2022-09-12 10:08:49,470 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8HY",
+  "PART_ID": "A51474001C",
+  "MACHINE_SLOT": 59,
+  "MACHINE_ID": "YSM20-23",
+  "PRODUCT_ID": "LT3168001",
+  "MATERIAL_ORDER_ID": "LT3168001-S28-A-220911",
+  "LINE_ID": "S28"
+}
+2022-09-12 10:08:49,826 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN6M4FX",
+  "PART_ID": "LG4758001C",
+  "MACHINE_SLOT": 137,
+  "MACHINE_ID": "YSM20-23",
+  "PRODUCT_ID": "LT3168001",
+  "MATERIAL_ORDER_ID": "LT3168001-S28-A-220911",
+  "LINE_ID": "S28"
+}
+2022-09-12 10:08:51,679 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN7U06N",
+  "PART_ID": "WA7-8679-000",
+  "MACHINE_SLOT": 43,
+  "MACHINE_ID": "YSM20-4",
+  "PRODUCT_ID": "FM3-C976-000SS01",
+  "MATERIAL_ORDER_ID": "FM3-C976-000SS01-S38-B-220912",
+  "LINE_ID": "S38"
+}
+2022-09-12 10:08:55,148 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W89U",
+  "PART_ID": "RK2-9981-000",
+  "MACHINE_SLOT": 103007,
+  "MACHINE_ID": "YSM20R-10",
+  "PRODUCT_ID": "RM3-7220-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-7220-000SS01-S49-A-220911",
+  "LINE_ID": "S49"
+}
+2022-09-12 10:08:58,368 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8W8A1",
+  "PART_ID": "RK2-9981-000",
+  "MACHINE_SLOT": 103007,
+  "MACHINE_ID": "YSM20R-13",
+  "PRODUCT_ID": "RM3-7220-000SS01",
+  "MATERIAL_ORDER_ID": "RM3-7220-000SS01-S50-A-220912",
+  "LINE_ID": "S50"
+}
+2022-09-12 10:08:59,726 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8T4QN",
+  "PART_ID": "A63263001B",
+  "MACHINE_SLOT": 17,
+  "MACHINE_ID": "YSM20R-5",
+  "PRODUCT_ID": "D012VE031",
+  "MATERIAL_ORDER_ID": "D012VE031-S44-A-220911",
+  "LINE_ID": "S44"
+}
+2022-09-12 10:09:00,260 [DefaultQuartzScheduler_Worker-1] ERROR FeederAnalysis.Business.TokusaiHelper [(null)] - {
+  "ERR_TYPE": "TEST",
+  "UPN_ID": "NN8G5MU",
+  "PART_ID": "D02B4X001A",
+  "MACHINE_SLOT": 108,
+  "MACHINE_ID": "YSM20R-6",
+  "PRODUCT_ID": "D012VE031",
+  "MATERIAL_ORDER_ID": "D012VE031-S44-A-220911",
+  "LINE_ID": "S44"
+}
+2022-09-12 10:09:02,837 [DefaultQuartzScheduler_Worker-1] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 83457 ms
+2022-09-12 16:13:30,482 [DefaultQuartzScheduler_Worker-1] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 46276 ms
+2022-09-12 16:14:48,218 [DefaultQuartzScheduler_Worker-2] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 4425 ms
+2022-09-12 16:16:47,726 [DefaultQuartzScheduler_Worker-3] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 3945 ms
+2022-09-12 16:18:48,213 [DefaultQuartzScheduler_Worker-4] DEBUG FeederAnalysis.Business.TokusaiJob [(null)] - Tokusai Job Finish. Elap: 4418 ms
