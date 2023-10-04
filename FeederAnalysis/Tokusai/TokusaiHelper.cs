@@ -158,18 +158,7 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
-                var currentMaterials = Repository.FindAllMaterialItem()
-              .GroupBy(c => new
-              {
-                  c.LINE_ID,
-                  c.PART_ID,
-              }).Select(gcs => new
-              {
-                  LINE_ID = gcs.Key.LINE_ID,
-                  PART_ID = gcs.Key.PART_ID,
-                  LIST = gcs.ToList(),
-              });
-
+                var currentMaterials = Repository.FindAllMaterialItem();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
                 dt.Columns.Add("PART_ID", typeof(string));
@@ -178,38 +167,38 @@ namespace FeederAnalysis.Tokusai
                 dt.Columns.Add("IS_TOKUSAI", typeof(bool));
                 dt.Columns.Add("WO", typeof(string));
                 dt.Columns.Add("IS_DM_ACCEPT", typeof(bool));
+                dt.Columns.Add("MACHINE_ID", typeof(string));
+                dt.Columns.Add("MACHINE_SLOT", typeof(string));
+                dt.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
 
                 foreach (var material in currentMaterials)
                 {
-                    MaterialOrderItem upnFirst = material.LIST.FirstOrDefault();
                     dt.Rows.Add(new object[] {
-                    material.LINE_ID,  material.PART_ID,upnFirst.PRODUCT_ID,
-                    DateTime.Now,IsTokusai(material.LIST),upnFirst.PRODUCTION_ORDER_ID, IsDMAccept(material.LIST)});
+                    material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
+                    DateTime.Now,IsTokusai(material),material.PRODUCTION_ORDER_ID,
+                        IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
                 }
 
-               Repository.Tokusai_LineItem_Update(dt);
+                Repository.Tokusai_LineItem_Update(dt);
             }
             catch (Exception ex)
             {
                 Console.Write("");
             }
-          
+
         }
-        private bool IsDMAccept(List<MaterialOrderItem> list)
+        private bool IsDMAccept(MaterialOrderItem item)
         {
             try
             {
-                foreach (var item in list)
+                var upnEntity = UpnCache.FindBc(item.UPN_ID);
+                if (!string.IsNullOrEmpty(upnEntity.emNo))
                 {
-                    var upnEntity = UpnCache.FindBc(item.UPN_ID);
-                    if (!string.IsNullOrEmpty(upnEntity.emNo))
+                    var lstModelAccept = SingletonHelper.ErpInstance.FindTokusai(upnEntity.emNo, upnEntity.partFm, upnEntity.partTo).Select(r => r.PRODUCT_ID).ToList();
+                    if (lstModelAccept.Count != 0 &&
+                        !lstModelAccept.Contains(item.PRODUCT_ID))
                     {
-                        var lstModelAccept = SingletonHelper.ErpInstance.FindTokusai(upnEntity.emNo, upnEntity.partFm, upnEntity.partTo).Select(r => r.PRODUCT_ID).ToList();
-                        if (lstModelAccept.Count != 0 &&
-                            !lstModelAccept.Contains(item.PRODUCT_ID))
-                        {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
@@ -218,25 +207,22 @@ namespace FeederAnalysis.Tokusai
 
                 Console.WriteLine("");
             }
-           
+
             return true;
         }
-        private bool IsTokusai(List<MaterialOrderItem> list)
+        private bool IsTokusai(MaterialOrderItem item)
         {
             try
             {
-                foreach (var item in list)
-                {
-                    var upnEntity = UpnCache.FindBc(item.UPN_ID);
-                    if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
-                }
+                var upnEntity = UpnCache.FindBc(item.UPN_ID);
+                if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
             }
             catch (Exception ex)
             {
 
                 Console.WriteLine("");
             }
-           
+
             return false;
         }
     }
