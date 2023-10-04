@@ -46,7 +46,7 @@ namespace FeederAnalysis.Business
             }
             catch (Exception ex)
             {
-
+                log.Error("Ope Job Err", ex);
                 return ex.Message;
             }
            

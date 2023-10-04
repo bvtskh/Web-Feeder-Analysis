@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using FeederAnalysis.Business;
@@ -158,6 +159,8 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
+                Stopwatch t = new Stopwatch();
+                
                 var currentMaterials = Repository.FindAllMaterialItem();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
@@ -173,17 +176,21 @@ namespace FeederAnalysis.Tokusai
 
                 foreach (var material in currentMaterials)
                 {
+                    t.Start();
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
                     DateTime.Now,IsTokusai(material),material.PRODUCTION_ORDER_ID,
                         IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
+
+                    t.Stop();
+                    System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
                 }
 
                 Repository.Tokusai_LineItem_Update(dt);
             }
             catch (Exception ex)
             {
-                Console.Write("");
+                log.Error("Ope Job Err", ex);
             }
 
         }
