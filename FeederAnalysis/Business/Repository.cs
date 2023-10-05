@@ -51,6 +51,34 @@ namespace FeederAnalysis.Business
             }
            
         }
+
+        public static string MainSub_LineItem_Update(DataTable dt)
+        {
+            try
+            {
+                using (DataContext context = new DataContext())
+                {
+                    var StaffCodeParam = new SqlParameter("@Data",dt)
+                    {
+                        TypeName = "dbo.udt_MainSub_LineItem",
+                        SqlDbType = SqlDbType.Structured
+                    };
+                    context.Database
+                       .ExecuteSqlCommand("exec MainSub_LineItem_Update @Data",
+                       StaffCodeParam);
+                    //var list = context.Database.SqlQuery<Tokusai_LineItem>("Tokusai_LineItem_Update", new { Data = dt }).ToList();
+                    Console.Write("");
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Ope Job Err", ex);
+                return ex.Message;
+            }
+           
+        }
+
         private static int MapTask(int task)
         {
             int result = 0;

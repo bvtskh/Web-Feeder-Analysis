@@ -14,6 +14,7 @@ namespace FeederAnalysis.Tokusai
     public class TokusaiHelper
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private List<MaterialOrderItem> currentMaterials;
         public List<Tokusai_Item> GetAll()
         {
             List<Tokusai_Item> result = new List<Tokusai_Item>();
@@ -160,8 +161,7 @@ namespace FeederAnalysis.Tokusai
             try
             {
                 Stopwatch t = new Stopwatch();
-                
-                var currentMaterials = Repository.FindAllMaterialItem();
+                currentMaterials = Repository.FindAllMaterialItem();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
                 dt.Columns.Add("PART_ID", typeof(string));
@@ -176,23 +176,56 @@ namespace FeederAnalysis.Tokusai
 
                 foreach (var material in currentMaterials)
                 {
-                    t.Start();
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,IsTokusai(material),material.PRODUCTION_ORDER_ID,
-                        IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
-
-                    t.Stop();
-                    System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
+                    DateTime.Now,1,material.PRODUCTION_ORDER_ID,
+                        1,material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
                 }
-
                 Repository.Tokusai_LineItem_Update(dt);
+                System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
                 log.Error("Ope Job Err", ex);
             }
 
+        }
+
+        public void MainSub_LineItem_Update()
+        {
+            var currentMaterialGroupByModel = currentMaterials.GroupBy(c => new
+            {
+                c.LINE_ID,
+                c.PRODUCT_ID,
+                c.MACHINE_ID,
+                c.MACHINE_SLOT
+            }).Select(gcs => new
+            {
+                LINE_ID = gcs.Key.LINE_ID,
+                PRODUCT_ID = gcs.Key.PRODUCT_ID,
+                MACHINE_ID = gcs.Key.MACHINE_ID,
+                MACHINE_SLOT = gcs.Key.MACHINE_SLOT,
+                LIST = gcs.ToList(),
+            });
+            DataTable dtMainSub = new DataTable();
+            dtMainSub.Columns.Add("LINE_ID", typeof(string));
+            dtMainSub.Columns.Add("PART_ID", typeof(string));
+            dtMainSub.Columns.Add("PRODUCT_ID", typeof(string));
+            dtMainSub.Columns.Add("UPD_TIME", typeof(DateTime));
+            dtMainSub.Columns.Add("WO", typeof(string));
+            dtMainSub.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
+            dtMainSub.Columns.Add("MACHINE_ID", typeof(string));
+            dtMainSub.Columns.Add("MACHINE_SLOT", typeof(string));
+            foreach (var material in currentMaterialGroupByModel)
+            {
+                var firstItem = material.LIST.FirstOrDefault();
+                dtMainSub.Rows.Add(new object[] {
+                    material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
+                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,
+                        material.MACHINE_ID,material.MACHINE_SLOT});
+            }
+
+            Repository.MainSub_LineItem_Update(dtMainSub);
         }
         private bool IsDMAccept(MaterialOrderItem item)
         {
