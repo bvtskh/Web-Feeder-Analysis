@@ -178,8 +178,8 @@ namespace FeederAnalysis.Tokusai
                 {
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,1,material.PRODUCTION_ORDER_ID,
-                        1,material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
+                    DateTime.Now,IsTokusai(material),material.PRODUCTION_ORDER_ID,
+                        IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
                 }
                 Repository.Tokusai_LineItem_Update(dt);
                 System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
