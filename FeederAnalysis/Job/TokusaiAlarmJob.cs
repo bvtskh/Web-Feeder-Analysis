@@ -11,8 +11,9 @@ namespace FeederAnalysis.Job
     {
         public void Execute(IJobExecutionContext context)
         {
-            new TokusaiHelper().Tokusai_LineItem_Update();
-            new TokusaiHelper().MainSub_LineItem_Update();
+            var helper = new TokusaiHelper();
+            helper.Tokusai_LineItem_Update();
+            helper.MainSub_LineItem_Update();
         }
     }
 }
