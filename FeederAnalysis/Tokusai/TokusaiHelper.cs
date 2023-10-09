@@ -14,6 +14,7 @@ namespace FeederAnalysis.Tokusai
     public class TokusaiHelper
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private List<MaterialOrderItem> currentMaterials = new List<MaterialOrderItem>();
         public List<Tokusai_Item> GetAll()
         {
             List<Tokusai_Item> result = new List<Tokusai_Item>();
@@ -160,7 +161,7 @@ namespace FeederAnalysis.Tokusai
             try
             {
                 Stopwatch t = new Stopwatch();
-                var currentMaterials = Repository.FindAllMaterialItem();
+                currentMaterials = Repository.FindAllMaterialItem();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
                 dt.Columns.Add("PART_ID", typeof(string));
@@ -175,10 +176,16 @@ namespace FeederAnalysis.Tokusai
 
                 foreach (var material in currentMaterials)
                 {
+                    var isTokusai = IsTokusai(material);
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,IsTokusai(material),material.PRODUCTION_ORDER_ID,
+                    DateTime.Now,isTokusai,material.PRODUCTION_ORDER_ID,
                         IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
+                    if (isTokusai && !string.IsNullOrEmpty(material.ALTER_PART_ID))
+                    {
+                        Repository.MainSubIsTokusaiSave(material);
+                    }
+
                 }
                 Repository.Tokusai_LineItem_Update(dt);
                 System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
@@ -190,11 +197,11 @@ namespace FeederAnalysis.Tokusai
 
         }
 
+
         public void MainSub_LineItem_Update()
         {
             try
             {
-                var currentMaterials = Repository.FindAllMaterialItem();
                 var currentMaterialGroupByModel = currentMaterials.GroupBy(c => new
                 {
                     c.LINE_ID,
@@ -225,6 +232,7 @@ namespace FeederAnalysis.Tokusai
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
                     DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,
                         material.MACHINE_ID,material.MACHINE_SLOT});
+
                 }
 
                 Repository.MainSub_LineItem_Update(dtMainSub);
@@ -234,7 +242,7 @@ namespace FeederAnalysis.Tokusai
 
                 log.Error("Ope Job Err", ex);
             }
-            
+
         }
         private bool IsDMAccept(MaterialOrderItem item)
         {
@@ -274,5 +282,6 @@ namespace FeederAnalysis.Tokusai
 
             return false;
         }
+
     }
 }

@@ -49,7 +49,7 @@ namespace FeederAnalysis.Business
                 log.Error("Ope Job Err", ex);
                 return ex.Message;
             }
-           
+
         }
 
         public static string MainSub_LineItem_Update(DataTable dt)
@@ -76,7 +76,7 @@ namespace FeederAnalysis.Business
                 log.Error("Ope Job Err", ex);
                 return ex.Message;
             }
-           
+
         }
 
         private static int MapTask(int task)
@@ -339,6 +339,30 @@ namespace FeederAnalysis.Business
             using (DXContext context = new DXContext())
             {
                 return context.Database.SqlQuery<PROFILER_INFO>(sql).ToList();
+            }
+        }
+
+        public static void MainSubIsTokusaiSave(MaterialOrderItem item)
+        {
+            using (DataContext context = new DataContext())
+            {
+                var tokusai = new Tokusai_LineHistory()
+                {
+                    LINE_ID = item.LINE_ID,
+                    PART_ID = item.PART_ID,
+                    PRODUCT_ID = item.PRODUCT_ID,
+                    UPD_TIME = DateTime.Now,
+                    CHANGE_NAME = "Linh kiện sử dụng tem hồng",
+                    CHANGE_ID = 4,
+                    WO = item.PRODUCTION_ORDER_ID,
+                    IS_CONFIRM = false,
+                    ID = Guid.NewGuid().ToString(),
+                    MATERIAL_ORDER_ID = item.MATERIAL_ORDER_ID,
+                    MACHINE_SLOT = item.MACHINE_SLOT,
+                    MACHINE_ID = item.MACHINE_ID
+                };
+                context.Tokusai_LineHistorys.Add(tokusai);
+                context.SaveChanges();
             }
         }
     }

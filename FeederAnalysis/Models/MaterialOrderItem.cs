@@ -19,5 +19,6 @@ namespace FeederAnalysis.Models
         public string PRODUCTION_ORDER_ID { get; set; }
         public double QUANTITY { get; set; }
         public string COMPONENT_ID { get; set; }
+        public string ALTER_PART_ID { get; set; }
     }
 }
