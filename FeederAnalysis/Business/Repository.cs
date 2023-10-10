@@ -359,10 +359,21 @@ namespace FeederAnalysis.Business
                     ID = Guid.NewGuid().ToString(),
                     MATERIAL_ORDER_ID = item.MATERIAL_ORDER_ID,
                     MACHINE_SLOT = item.MACHINE_SLOT,
-                    MACHINE_ID = item.MACHINE_ID
+                    MACHINE_ID = item.MACHINE_ID,
+                    IS_DM_ACCEPT = true
                 };
-                context.Tokusai_LineHistorys.Add(tokusai);
-                context.SaveChanges();
+                var line = context.Tokusai_LineHistorys.Where(m => m.LINE_ID == tokusai.LINE_ID
+                && m.PART_ID == tokusai.PART_ID
+                && m.PRODUCT_ID == tokusai.PRODUCT_ID
+                && m.MACHINE_ID == tokusai.MACHINE_ID
+                && m.MACHINE_SLOT == tokusai.MACHINE_SLOT
+                && m.IS_CONFIRM == false).FirstOrDefault();
+                if(line == null)
+                {
+                    context.Tokusai_LineHistorys.Add(tokusai);
+                    context.SaveChanges();
+                }
+                
             }
         }
     }

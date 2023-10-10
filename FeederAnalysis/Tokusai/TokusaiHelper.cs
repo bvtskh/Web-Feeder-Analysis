@@ -181,7 +181,7 @@ namespace FeederAnalysis.Tokusai
                     material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
                     DateTime.Now,isTokusai,material.PRODUCTION_ORDER_ID,
                         IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
-                    if (isTokusai && !string.IsNullOrEmpty(material.ALTER_PART_ID))
+                    if (isTokusai && !string.IsNullOrEmpty(material.ALTER_PART_ID) && material.ALTER_PART_ID != material.PART_ID)
                     {
                         Repository.MainSubIsTokusaiSave(material);
                     }
