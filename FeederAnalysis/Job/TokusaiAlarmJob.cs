@@ -13,6 +13,7 @@ namespace FeederAnalysis.Job
         {
             var helper = new TokusaiHelper();
             helper.Tokusai_LineItem_Update();
+            helper.Tokusai_LineItem_Change();
             helper.MainSub_LineItem_Update();
         }
     }

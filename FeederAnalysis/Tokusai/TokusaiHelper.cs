@@ -15,6 +15,7 @@ namespace FeederAnalysis.Tokusai
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private List<MaterialOrderItem> currentMaterials = new List<MaterialOrderItem>();
+        private DateTime currentDate;
         public List<Tokusai_Item> GetAll()
         {
             List<Tokusai_Item> result = new List<Tokusai_Item>();
@@ -155,13 +156,53 @@ namespace FeederAnalysis.Tokusai
                 log.Error("Tokusai Job Err:", ex);
             }
         }
+        public void Tokusai_LineItem_Change()
+        {
+            try
+            {
+                var currentLines = Repository.FindAllMaterialItemChange();
+                if (currentDate == DateTime.MinValue)
+                {
+                    var maxDate = Repository.GetMaxTokusaiUpdate();
+                    currentLines = currentLines.Where(m => m.OPERATE_TIME > maxDate).ToList();
+                }
+                foreach (var item in currentLines)
+                {
+                    var upnEntity = IsTokusai(item);
+                    var upnOldEntity = IsTokusai(item);
+                    if (upnOldEntity != upnEntity)
+                    {
+                        if (upnEntity) item.CHANGE_ID = 1;
+                        else item.CHANGE_ID = 0;
+                        Repository.TokusaiSave(item);
+                    }
+                }
+                currentDate = DateTime.Now;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Tokusai_LineItem_Change", ex);
+            }
 
+        }
         public void Tokusai_LineItem_Update()
         {
             try
             {
                 Stopwatch t = new Stopwatch();
                 currentMaterials = Repository.FindAllMaterialItem();
+                var listCurrentMaterials = currentMaterials
+               .GroupBy(c => new
+               {
+                   c.LINE_ID,
+                   c.PART_ID,
+               }).Select(gcs => new
+               {
+                   LINE_ID = gcs.Key.LINE_ID,
+                   PART_ID = gcs.Key.PART_ID,
+                   LIST = gcs.ToList(),
+               });
+
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
                 dt.Columns.Add("PART_ID", typeof(string));
@@ -170,22 +211,14 @@ namespace FeederAnalysis.Tokusai
                 dt.Columns.Add("IS_TOKUSAI", typeof(bool));
                 dt.Columns.Add("WO", typeof(string));
                 dt.Columns.Add("IS_DM_ACCEPT", typeof(bool));
-                dt.Columns.Add("MACHINE_ID", typeof(string));
-                dt.Columns.Add("MACHINE_SLOT", typeof(int));
                 dt.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
 
-                foreach (var material in currentMaterials)
+                foreach (var material in listCurrentMaterials)
                 {
-                    var isTokusai = IsTokusai(material);
+                    MaterialOrderItem upnFirst = material.LIST.FirstOrDefault();
                     dt.Rows.Add(new object[] {
-                    material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,isTokusai,material.PRODUCTION_ORDER_ID,
-                        IsDMAccept(material),material.MACHINE_ID,material.MACHINE_SLOT,material.MATERIAL_ORDER_ID});
-                    if (isTokusai && !string.IsNullOrEmpty(material.ALTER_PART_ID) && material.ALTER_PART_ID != material.PART_ID)
-                    {
-                        Repository.MainSubIsTokusaiSave(material);
-                    }
-
+                    material.LINE_ID,  material.PART_ID,upnFirst.PRODUCT_ID,
+                    DateTime.Now,IsTokusai(material.LIST),upnFirst.PRODUCTION_ORDER_ID, IsDMAccept(material.LIST),upnFirst.MATERIAL_ORDER_ID});
                 }
                 Repository.Tokusai_LineItem_Update(dt);
                 System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
@@ -196,7 +229,6 @@ namespace FeederAnalysis.Tokusai
             }
 
         }
-
 
         public void MainSub_LineItem_Update()
         {
@@ -244,19 +276,15 @@ namespace FeederAnalysis.Tokusai
             }
 
         }
-        private bool IsDMAccept(MaterialOrderItem item)
+
+        private bool IsTokusai(List<MaterialOrderItem> list)
         {
             try
             {
-                var upnEntity = UpnCache.FindBc(item.UPN_ID);
-                if (!string.IsNullOrEmpty(upnEntity.emNo))
+                foreach (var item in list)
                 {
-                    var lstModelAccept = SingletonHelper.ErpInstance.FindTokusai(upnEntity.emNo, upnEntity.partFm, upnEntity.partTo).Select(r => r.PRODUCT_ID).ToList();
-                    if (lstModelAccept.Count != 0 &&
-                        !lstModelAccept.Contains(item.PRODUCT_ID))
-                    {
-                        return false;
-                    }
+                    var upnEntity = UpnCache.FindBc(item.UPN_ID);
+                    if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
                 }
             }
             catch (Exception ex)
@@ -265,9 +293,10 @@ namespace FeederAnalysis.Tokusai
                 Console.WriteLine("");
             }
 
-            return true;
+            return false;
         }
-        private bool IsTokusai(MaterialOrderItem item)
+
+        private bool IsTokusai(FindAllMaterialOrderItemChange item)
         {
             try
             {
@@ -281,6 +310,32 @@ namespace FeederAnalysis.Tokusai
             }
 
             return false;
+        }
+
+        private bool IsDMAccept(List<MaterialOrderItem> list)
+        {
+            try
+            {
+                foreach (var item in list)
+                {
+                    var upnEntity = UpnCache.FindBc(item.UPN_ID);
+                    if (!string.IsNullOrEmpty(upnEntity.emNo))
+                    {
+                        var lstModelAccept = SingletonHelper.ErpInstance.FindTokusai(upnEntity.emNo, upnEntity.partFm, upnEntity.partTo).Select(r => r.PRODUCT_ID).ToList();
+                        if (lstModelAccept.Count != 0 &&
+                            !lstModelAccept.Contains(item.PRODUCT_ID))
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message.ToString());
+            }
+
+            return true;
         }
 
     }

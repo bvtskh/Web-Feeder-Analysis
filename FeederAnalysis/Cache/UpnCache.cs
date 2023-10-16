@@ -13,6 +13,7 @@ namespace FeederAnalysis.Cache
         private static void AddCache(string bcNo)
         {
             ClearCache();
+
             if (!_cache.ContainsKey(bcNo))
             {
                 try
@@ -36,7 +37,6 @@ namespace FeederAnalysis.Cache
                             }
                         }
                         _cache.Add(bcNo, cache);
-                        //Debug.WriteLine("Add new: " + bcNo + " Total Upn: " + _cache.Count);
                     }
                 }
                 catch (Exception ex)
@@ -44,6 +44,7 @@ namespace FeederAnalysis.Cache
                     Debug.WriteLine(ex.Message);
                 }
             }
+
         }
 
         private static void ClearCache()
@@ -58,7 +59,15 @@ namespace FeederAnalysis.Cache
         public static UpnEntity FindBc(string bcNo)
         {
             AddCache(bcNo);
-            return _cache[bcNo];
+            UpnEntity value = new UpnEntity();
+            if (_cache.TryGetValue(bcNo, out value))
+            {
+                return value;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

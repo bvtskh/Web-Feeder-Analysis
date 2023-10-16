@@ -21,4 +21,20 @@ namespace FeederAnalysis.Models
         public string COMPONENT_ID { get; set; }
         public string ALTER_PART_ID { get; set; }
     }
+
+    public class FindAllMaterialOrderItemChange
+    {
+        public string UPN_ID { get; set; }
+        public string PART_ID { get; set; }
+        public string LINE_ID { get; set; }
+        public string MACHINE_ID { get; set; }
+        public int MACHINE_SLOT { get; set; }
+        public string PRODUCT_ID { get; set; }
+        public string PRODUCTION_ORDER_ID { get; set; }
+        public string OLD_UPN_ID { get; set; }
+        public string MATERIAL_ORDER_ID { get; set; }
+        public int CHANGE_ID { get; set; }
+        public DateTime OPERATE_TIME { get; set; }
+
+    }
 }
