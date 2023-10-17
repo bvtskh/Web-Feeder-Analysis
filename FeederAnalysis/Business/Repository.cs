@@ -31,7 +31,7 @@ namespace FeederAnalysis.Business
             {
                 using (DataContext context = new DataContext())
                 {
-                    var StaffCodeParam = new SqlParameter("@Data",dt)
+                    var StaffCodeParam = new SqlParameter("@Data", dt)
                     {
                         TypeName = "dbo.udt_Tokusai_LineItem",
                         SqlDbType = SqlDbType.Structured
@@ -39,7 +39,6 @@ namespace FeederAnalysis.Business
                     context.Database
                        .ExecuteSqlCommand("exec Tokusai_LineItem_Update @Data",
                        StaffCodeParam);
-                    //var list = context.Database.SqlQuery<Tokusai_LineItem>("Tokusai_LineItem_Update", new { Data = dt }).ToList();
                     Console.Write("");
                     return "";
                 }
@@ -58,7 +57,7 @@ namespace FeederAnalysis.Business
             {
                 using (DataContext context = new DataContext())
                 {
-                    var StaffCodeParam = new SqlParameter("@Data",dt)
+                    var StaffCodeParam = new SqlParameter("@Data", dt)
                     {
                         TypeName = "dbo.udt_MainSub_LineItem",
                         SqlDbType = SqlDbType.Structured
@@ -186,6 +185,17 @@ namespace FeederAnalysis.Business
 
             }
         }
+
+        public static List<FindAllMaterialOrderItemChange> FindAllMaterialItemChange()
+        {
+            using (UmesContext context = new UmesContext())
+            {
+                var res = context.Database.SqlQuery<FindAllMaterialOrderItemChange>("FindAllMaterialOrderItemChange", "");
+                return res.ToList();
+
+            }
+        }
+
         public static List<OpeLogEntity> FindAllOpeFail()
         {
             string sql = @"
@@ -341,7 +351,30 @@ namespace FeederAnalysis.Business
                 return context.Database.SqlQuery<PROFILER_INFO>(sql).ToList();
             }
         }
-
+        public static void TokusaiSave(FindAllMaterialOrderItemChange item)
+        {
+            using (DataContext context = new DataContext())
+            {
+                var tokusai = new Tokusai_LineHistory()
+                {
+                    LINE_ID = item.LINE_ID,
+                    PART_ID = item.PART_ID,
+                    PRODUCT_ID = item.PRODUCT_ID,
+                    UPD_TIME = DateTime.Now,
+                    CHANGE_NAME = item.CHANGE_ID == 1 ? "Tokusai Trắng => Hồng" : "Tokusai Hồng => Trắng",
+                    CHANGE_ID = item.CHANGE_ID,
+                    WO = item.PRODUCTION_ORDER_ID,
+                    IS_CONFIRM = false,
+                    ID = Guid.NewGuid().ToString(),
+                    MATERIAL_ORDER_ID = item.MATERIAL_ORDER_ID,
+                    MACHINE_SLOT = item.MACHINE_SLOT,
+                    MACHINE_ID = item.MACHINE_ID,
+                    IS_DM_ACCEPT = true
+                };
+                context.Tokusai_LineHistorys.Add(tokusai);
+                context.SaveChanges();
+            }
+        }
         public static void MainSubIsTokusaiSave(MaterialOrderItem item)
         {
             using (DataContext context = new DataContext())
@@ -368,13 +401,30 @@ namespace FeederAnalysis.Business
                 && m.MACHINE_ID == tokusai.MACHINE_ID
                 && m.MACHINE_SLOT == tokusai.MACHINE_SLOT
                 && m.IS_CONFIRM == false).FirstOrDefault();
-                if(line == null)
+                if (line == null)
                 {
                     context.Tokusai_LineHistorys.Add(tokusai);
                     context.SaveChanges();
                 }
-                
+
             }
+        }
+
+        public static DateTime GetMaxTokusaiUpdate()
+        {
+            try
+            {
+                using (DataContext db = new DataContext())
+                {
+                    var maxUpdateTime = db.Tokusai_LineHistorys.Where(m => m.IS_CONFIRM == false).Max(m => m.UPD_TIME);
+                    return maxUpdateTime;
+                }
+            }
+            catch (Exception ex)
+            {
+                return DateTime.MinValue;
+            }
+
         }
     }
 }
