@@ -272,6 +272,15 @@ namespace FeederAnalysis.Business
                 return lstInsert;
             }
         }
+
+        internal static List<MainSub_Model> GetAllPartMainSub()
+        {
+            using(var db = new DataContext())
+            {
+                return db.MainSub_Models.ToList();
+            }
+        }
+
         public static List<CaliEntity> GetListCali()
         {
             var startDate = DateTime.Now;

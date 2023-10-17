@@ -234,20 +234,32 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
-                var currentMaterialGroupByModel = currentMaterials.GroupBy(c => new
-                {
-                    c.LINE_ID,
-                    c.PRODUCT_ID,
-                    c.MACHINE_ID,
-                    c.MACHINE_SLOT
-                }).Select(gcs => new
-                {
-                    LINE_ID = gcs.Key.LINE_ID,
-                    PRODUCT_ID = gcs.Key.PRODUCT_ID,
-                    MACHINE_ID = gcs.Key.MACHINE_ID,
-                    MACHINE_SLOT = gcs.Key.MACHINE_SLOT,
-                    LIST = gcs.ToList(),
-                });
+                currentMaterials = Repository.FindAllMaterialItem();
+                var listPartMainSub = Repository.GetAllPartMainSub();
+                var currentMaterialGroupByModel = currentMaterials
+                    .Join(listPartMainSub, material => material.PART_ID,
+                    mainsub => mainsub.PART_FROM,
+                    (material, mainsub) => new MaterialOrderItem
+                    {
+                        PART_ID = material.PART_ID,
+                        LINE_ID = material.LINE_ID,
+                        PRODUCT_ID = material.PRODUCT_ID,
+                        PRODUCTION_ORDER_ID = material.PRODUCTION_ORDER_ID,
+                        MATERIAL_ORDER_ID = material.MATERIAL_ORDER_ID,
+                        ALTER_PART_ID = material.ALTER_PART_ID
+                    })
+                    .GroupBy(c => new
+                    {
+                        c.LINE_ID,
+                        c.PRODUCT_ID,
+                        c.PART_ID
+                    }).Select(gcs => new
+                    {
+                        LINE_ID = gcs.Key.LINE_ID,
+                        PRODUCT_ID = gcs.Key.PRODUCT_ID,
+                        PART_ID = gcs.Key.PART_ID,
+                        LIST = gcs.ToList(),
+                    });
                 DataTable dtMainSub = new DataTable();
                 dtMainSub.Columns.Add("LINE_ID", typeof(string));
                 dtMainSub.Columns.Add("PART_ID", typeof(string));
@@ -255,16 +267,13 @@ namespace FeederAnalysis.Tokusai
                 dtMainSub.Columns.Add("UPD_TIME", typeof(DateTime));
                 dtMainSub.Columns.Add("WO", typeof(string));
                 dtMainSub.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
-                dtMainSub.Columns.Add("MACHINE_ID", typeof(string));
-                dtMainSub.Columns.Add("MACHINE_SLOT", typeof(string));
+                dtMainSub.Columns.Add("ALTER_PART_ID", typeof(string));
                 foreach (var material in currentMaterialGroupByModel)
                 {
                     var firstItem = material.LIST.FirstOrDefault();
                     dtMainSub.Rows.Add(new object[] {
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,
-                        material.MACHINE_ID,material.MACHINE_SLOT});
-
+                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});
                 }
 
                 Repository.MainSub_LineItem_Update(dtMainSub);
