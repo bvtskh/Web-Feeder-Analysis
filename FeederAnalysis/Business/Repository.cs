@@ -5,6 +5,7 @@ using FeederAnalysis.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace FeederAnalysis.Business
     public class Repository
     {
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string DB = "SMT";
         private static List<string> ListID(string order)
         {
             var sql = $@"SELECT [SystemId]
@@ -72,7 +74,7 @@ namespace FeederAnalysis.Business
             }
             catch (Exception ex)
             {
-                log.Error("Ope Job Err", ex);
+                log.Error("MainSub_LineItem_Update", ex);
                 return ex.Message;
             }
 
@@ -104,14 +106,10 @@ namespace FeederAnalysis.Business
         {
             using (DataContext context = new DataContext())
             {
-                //var res = context.FeederAlarms.OrderByDescending(r => r.STATE).ThenBy(h => h.EX_DATE).ToList();
                 var res = context.FeederAlarms.ToList();
                 return res;
             }
-            //List<FeederAlarm> feederAlarms = new List<FeederAlarm>();
-            //feederAlarms = _baseContext.FeederAlarms.ToList();
-            //var result = feederAlarms.OrderByDescending(r => r.STATE).ThenBy(h => h.EX_DATE).ThenBy(t => t.ABOUT).ToList();
-            //return result;
+
         }
         public static void SaveFeeder(List<FeederAlarm> lstFeeder)
         {
@@ -275,7 +273,7 @@ namespace FeederAnalysis.Business
 
         internal static List<MainSub_Model> GetAllPartMainSub()
         {
-            using(var db = new DataContext())
+            using (var db = new DataContext())
             {
                 return db.MainSub_Models.ToList();
             }
@@ -435,5 +433,50 @@ namespace FeederAnalysis.Business
             }
 
         }
+        public static List<string> GetAllPartLineItem(string LINE_ID, string PRODUCT_ID)
+        {
+            string sql = $@"SELECT PART_ID FROM [{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '" + LINE_ID + "' AND PRODUCT_ID = '" + PRODUCT_ID + "'";
+            using (DataContext context = new DataContext())
+            {
+                var res = context.Database.SqlQuery<string>(sql).ToList();
+                return res;
+            }
+        }
+        public static void MainSubSave(MaterialOrderItem item, string partFrom, string partTo)
+        {
+            using (DataContext db = new DataContext())
+            {
+                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                {
+                    var tokusai = new Tokusai_LineHistory()
+                    {
+                        LINE_ID = item.LINE_ID,
+                        PART_ID = item.PART_ID,
+                        PRODUCT_ID = item.PRODUCT_ID,
+                        UPD_TIME = DateTime.Now,
+                        CHANGE_NAME = $"MainSub({partFrom} -> {partTo})",
+                        CHANGE_ID = 4,
+                        WO = item.PRODUCTION_ORDER_ID,
+                        IS_CONFIRM = false,
+                        ID = Guid.NewGuid().ToString(),
+                        MATERIAL_ORDER_ID = item.MATERIAL_ORDER_ID,
+                        MACHINE_SLOT = item.MACHINE_SLOT,
+                        MACHINE_ID = item.MACHINE_ID,
+                        IS_DM_ACCEPT = true
+                    };
+
+                    db.Tokusai_LineHistorys.Add(tokusai);
+                    db.SaveChanges();
+                    string sql = $@"INSERT INTO [{DB}].[dbo].[MainSub_LineItem_backup] 
+                                    SELECT* FROM[{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{item.LINE_ID}' AND PRODUCT_ID = '{item.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
+                    db.Database.ExecuteSqlCommand(sql, "");
+                    string sql1 = $@"DELETE FROM [{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{item.LINE_ID}' AND PRODUCT_ID = '{item.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
+                    db.Database.ExecuteSqlCommand(sql1, "");
+                    transaction.Commit();
+                }
+
+            }
+        }
+
     }
 }
