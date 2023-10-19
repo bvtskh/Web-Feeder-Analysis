@@ -85,5 +85,19 @@ namespace FeederAnalysis.Business
         {
             return text == null || text.Trim().Length == 0;
         }
+
+        public static List<T> Join<T>(this List<T> first, List<T> second)
+        {
+            if (first == null)
+            {
+                return second;
+            }
+            if (second == null)
+            {
+                return first;
+            }
+
+            return first.Concat(second).ToList();
+        }
     }
 }

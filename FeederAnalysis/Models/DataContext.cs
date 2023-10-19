@@ -17,6 +17,7 @@
         public virtual DbSet<LocationEntity> Locations { get; set; }
         public virtual DbSet<Tokusai_Item> TokusaiItems { get; set; }
         public virtual DbSet<Tokusai_LineHistory> Tokusai_LineHistorys { get; set; }
+        public virtual DbSet<MainSub_Model> MainSub_Models { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -178,6 +178,7 @@
     <Compile Include="Job\EduHelper.cs" />
     <Compile Include="Job\TokusaiAlarmJob.cs" />
     <Compile Include="Models\EyeEntity.cs" />
+    <Compile Include="Models\MainSub_Model.cs" />
     <Compile Include="Models\PROFILER_INFO.cs" />
     <Compile Include="Job\ProfilerJob.cs" />
     <Compile Include="Job\KyoJob.cs" />

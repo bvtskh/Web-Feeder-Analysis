@@ -160,6 +160,9 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
+                Stopwatch t = new Stopwatch();
+                t.Start();
+
                 var currentLines = Repository.FindAllMaterialItemChange();
                 if (currentDate == DateTime.MinValue)
                 {
@@ -178,6 +181,8 @@ namespace FeederAnalysis.Tokusai
                     }
                 }
                 currentDate = DateTime.Now;
+                t.Stop();
+                Debug.WriteLine("test:" + t.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
@@ -234,20 +239,34 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
-                var currentMaterialGroupByModel = currentMaterials.GroupBy(c => new
-                {
-                    c.LINE_ID,
-                    c.PRODUCT_ID,
-                    c.MACHINE_ID,
-                    c.MACHINE_SLOT
-                }).Select(gcs => new
-                {
-                    LINE_ID = gcs.Key.LINE_ID,
-                    PRODUCT_ID = gcs.Key.PRODUCT_ID,
-                    MACHINE_ID = gcs.Key.MACHINE_ID,
-                    MACHINE_SLOT = gcs.Key.MACHINE_SLOT,
-                    LIST = gcs.ToList(),
-                });
+                Stopwatch t = new Stopwatch();
+                t.Start();
+                var listPartMainSub = Repository.GetAllPartMainSub();
+                var materials = currentMaterials
+                    .Join(listPartMainSub, material => material.PART_ID,
+                    mainsub => mainsub.PART_FROM,
+                    (material, mainsub) => new MaterialOrderItem
+                    {
+                        PART_ID = material.PART_ID,
+                        LINE_ID = material.LINE_ID,
+                        PRODUCT_ID = material.PRODUCT_ID,
+                        PRODUCTION_ORDER_ID = material.PRODUCTION_ORDER_ID,
+                        MATERIAL_ORDER_ID = material.MATERIAL_ORDER_ID,
+                        ALTER_PART_ID = material.ALTER_PART_ID
+                    }).ToList();
+                var currentMaterialGroupByPart = materials
+                    .GroupBy(c => new
+                    {
+                        c.LINE_ID,
+                        c.PRODUCT_ID,
+                        c.PART_ID
+                    }).Select(gcs => new
+                    {
+                        LINE_ID = gcs.Key.LINE_ID,
+                        PRODUCT_ID = gcs.Key.PRODUCT_ID,
+                        PART_ID = gcs.Key.PART_ID,
+                        LIST = gcs.ToList(),
+                    });
                 DataTable dtMainSub = new DataTable();
                 dtMainSub.Columns.Add("LINE_ID", typeof(string));
                 dtMainSub.Columns.Add("PART_ID", typeof(string));
@@ -255,26 +274,54 @@ namespace FeederAnalysis.Tokusai
                 dtMainSub.Columns.Add("UPD_TIME", typeof(DateTime));
                 dtMainSub.Columns.Add("WO", typeof(string));
                 dtMainSub.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
-                dtMainSub.Columns.Add("MACHINE_ID", typeof(string));
-                dtMainSub.Columns.Add("MACHINE_SLOT", typeof(string));
-                foreach (var material in currentMaterialGroupByModel)
+                dtMainSub.Columns.Add("ALTER_PART_ID", typeof(string));
+                foreach (var material in currentMaterialGroupByPart)
                 {
                     var firstItem = material.LIST.FirstOrDefault();
                     dtMainSub.Rows.Add(new object[] {
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,
-                        material.MACHINE_ID,material.MACHINE_SLOT});
-
+                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});
+                }
+                // check chuyển đổi WO
+                var currentMaterialGroupByModel = materials.GroupBy(m => new
+                {
+                    m.LINE_ID,
+                    m.PRODUCT_ID
+                }).Select(gcs => new
+                {
+                    LINE_ID = gcs.Key.LINE_ID,
+                    PRODUCT_ID = gcs.Key.PRODUCT_ID,
+                    LIST_PART = gcs.ToList(),
+                }).ToList();
+                foreach (var item in currentMaterialGroupByModel)
+                {
+                    var listOldPart = Repository.GetAllPartLineItem(item.LINE_ID, item.PRODUCT_ID);
+                    var listNewPart = item.LIST_PART.Select(s => s.PART_ID).ToList();
+                    foreach(var model in listPartMainSub)
+                    {
+                        if (IsChangeMainSub(model, listOldPart, listNewPart))
+                        {
+                            Repository.MainSubSave(item.LIST_PART.FirstOrDefault(), model.PART_FROM, model.PART_TO);
+                        }
+                    }
+                   
                 }
 
                 Repository.MainSub_LineItem_Update(dtMainSub);
+                t.Stop();
+                log.Debug("MainSub_LineItem_Update_Finish_" + t.ElapsedMilliseconds.ToString());
             }
             catch (Exception ex)
             {
-
-                log.Error("Ope Job Err", ex);
+                log.Error("MainSub_LineItem_Update", ex);
             }
 
+        }
+
+        private bool IsChangeMainSub(MainSub_Model model, List<string> listOldPart, List<string> listNewPart)
+        {
+            if (listOldPart.Contains(model.PART_FROM) && listNewPart.Contains(model.PART_TO)) return true;
+            return false;
         }
 
         private bool IsTokusai(List<MaterialOrderItem> list)

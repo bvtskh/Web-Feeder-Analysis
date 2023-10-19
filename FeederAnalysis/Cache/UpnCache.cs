@@ -10,40 +10,45 @@ namespace FeederAnalysis.Cache
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static Dictionary<string, UpnEntity> _cache = new Dictionary<string, UpnEntity>();
         private const int cacheLengt = 10000;
+        private static readonly object  ob = new object();
         private static void AddCache(string bcNo)
         {
             ClearCache();
-
-            if (!_cache.ContainsKey(bcNo))
+            lock (ob)
             {
-                try
+                if (!_cache.ContainsKey(bcNo))
                 {
-                    var entity = SingletonHelper.UsapInstance.GetByBcNo(bcNo);
-                    if (entity != null)
+                    try
                     {
-                        var cache = new UpnEntity()
+                        var entity = SingletonHelper.UsapInstance.GetByBcNo(bcNo);
+                        if (entity != null)
                         {
-                            upnID = bcNo,
-                            partNo = entity.PART_NO
-                        };
-                        if (string.Equals(entity.BC_TYPE, "EM", StringComparison.OrdinalIgnoreCase))
-                        {
-                            var bcTokusai = SingletonHelper.UsapInstance.GetBcTokusai(bcNo);
-                            if (bcTokusai != null)
+                            var cache = new UpnEntity()
                             {
-                                cache.emNo = bcTokusai.EM_NO;
-                                cache.partFm = bcTokusai.PART_FM;
-                                cache.partTo = bcTokusai.PART_TO;
+                                upnID = bcNo,
+                                partNo = entity.PART_NO
+                            };
+                            if (string.Equals(entity.BC_TYPE, "EM", StringComparison.OrdinalIgnoreCase))
+                            {
+                                var bcTokusai = SingletonHelper.UsapInstance.GetBcTokusai(bcNo);
+                                if (bcTokusai != null)
+                                {
+                                    cache.emNo = bcTokusai.EM_NO;
+                                    cache.partFm = bcTokusai.PART_FM;
+                                    cache.partTo = bcTokusai.PART_TO;
+
+                                }
                             }
+                            _cache.Add(bcNo, cache);
                         }
-                        _cache.Add(bcNo, cache);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
             }
+           
 
         }
 
