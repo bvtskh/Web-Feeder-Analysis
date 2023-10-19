@@ -7,11 +7,11 @@ using System.Web;
 
 namespace FeederAnalysis.Job
 {
-    public class TokusaiAlarmJob : IJob
+    public class MainSubAlarmJob : IJob
     {
         public void Execute(IJobExecutionContext context)
         {
-            new TokusaiHelper().Tokusai_LineItem_Update();
+            new MainSubHelper().MainSub_LineItem_Update();
         }
     }
 }

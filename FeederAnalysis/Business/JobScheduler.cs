@@ -16,6 +16,7 @@ namespace FeederAnalysis.Business
         {
             int feederInterval = Bet.Util.Config.GetValue("FeederInterval").ToInt();
             int tokusaiInterval = Bet.Util.Config.GetValue("TokusaiInterval").ToInt();
+            int mainsubInterval = Bet.Util.Config.GetValue("MainSubInterval").ToInt();
             int opeInterval = 10;
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
@@ -72,13 +73,21 @@ namespace FeederAnalysis.Business
              .WithIdentity("caliJob")
              .Build();
 
-          
+            IJobDetail mainsubAlarmJob = JobBuilder.Create<MainSubAlarmJob>()
+                .WithIdentity("MainSubAlarmJob")
+               .Build();
+            ITrigger mainsubAlarmTrigger = TriggerBuilder.Create()
+               .WithIdentity("mainsubAlarmTrigger")
+               .StartNow()
+               .WithSimpleSchedule(r => r.WithIntervalInMinutes(mainsubInterval)
+               .RepeatForever())
+               .Build();
             //IJobDetail gaJob = JobBuilder.Create<GaJob>()
             //  .WithIdentity("gaJob")
             //  .Build();
 
 
-            
+
             IJobDetail solderJob = JobBuilder.Create<SolderJob>()
             .WithIdentity("soilderJob")
             .Build();
@@ -128,6 +137,7 @@ namespace FeederAnalysis.Business
             scheduler.ScheduleJob(profileJob, profileTrigger);
             scheduler.ScheduleJob(eduJob, eduTrigger);
             scheduler.ScheduleJob(eyeJob, eyeTrigger);
+            scheduler.ScheduleJob(mainsubAlarmJob, mainsubAlarmTrigger);
         }
     }
 }

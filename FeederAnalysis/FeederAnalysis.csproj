@@ -50,11 +50,11 @@
   <ItemGroup>
     <Reference Include="Bet.Util, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\13. Projects\UMC Global\Libs\Bet.Util.dll</HintPath>
+      <HintPath>bin\Bet.Util.dll</HintPath>
     </Reference>
     <Reference Include="Bet.Util.Extension, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\13. Projects\UMC Global\Libs\Bet.Util.Extension.dll</HintPath>
+      <HintPath>bin\Bet.Util.Extension.dll</HintPath>
     </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
@@ -176,6 +176,7 @@
     <Compile Include="DAL\DXContext.cs" />
     <Compile Include="Job\EduEyeJob.cs" />
     <Compile Include="Job\EduHelper.cs" />
+    <Compile Include="Job\MainSubAlarmJob.cs" />
     <Compile Include="Job\TokusaiAlarmJob.cs" />
     <Compile Include="Models\EyeEntity.cs" />
     <Compile Include="Models\MainSub_Model.cs" />
@@ -231,6 +232,7 @@
     <Compile Include="Models\Tokusai_LineHistory.cs" />
     <Compile Include="Models\Tokusai_LineItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tokusai\MainSubHelper.cs" />
     <Compile Include="Tokusai\TokusaiHelper.cs" />
   </ItemGroup>
   <ItemGroup>
