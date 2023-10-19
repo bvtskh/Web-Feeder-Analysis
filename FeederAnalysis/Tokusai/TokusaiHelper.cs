@@ -160,6 +160,9 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
+                Stopwatch t = new Stopwatch();
+                t.Start();
+
                 var currentLines = Repository.FindAllMaterialItemChange();
                 if (currentDate == DateTime.MinValue)
                 {
@@ -178,6 +181,8 @@ namespace FeederAnalysis.Tokusai
                     }
                 }
                 currentDate = DateTime.Now;
+                t.Stop();
+                Debug.WriteLine("test:" + t.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
@@ -234,7 +239,8 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
-                currentMaterials = Repository.FindAllMaterialItem();
+                Stopwatch t = new Stopwatch();
+                t.Start();
                 var listPartMainSub = Repository.GetAllPartMainSub();
                 var materials = currentMaterials
                     .Join(listPartMainSub, material => material.PART_ID,
@@ -302,10 +308,11 @@ namespace FeederAnalysis.Tokusai
                 }
 
                 Repository.MainSub_LineItem_Update(dtMainSub);
+                t.Stop();
+                log.Debug("MainSub_LineItem_Update_Finish_" + t.ElapsedMilliseconds.ToString());
             }
             catch (Exception ex)
             {
-
                 log.Error("MainSub_LineItem_Update", ex);
             }
 
