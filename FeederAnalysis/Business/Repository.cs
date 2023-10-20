@@ -439,7 +439,7 @@ namespace FeederAnalysis.Business
             using (DataContext context = new DataContext())
             {
                 var res = context.Database.SqlQuery<string>(sql).ToList();
-                return res;
+                return res.ConvertAll(m => m.ToUpper().Trim()).ToList();
             }
         }
         public static void MainSubSave(MaterialOrderItem item, string partFrom, string partTo)

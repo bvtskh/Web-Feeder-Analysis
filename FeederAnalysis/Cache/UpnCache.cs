@@ -10,7 +10,7 @@ namespace FeederAnalysis.Cache
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private static Dictionary<string, UpnEntity> _cache = new Dictionary<string, UpnEntity>();
         private const int cacheLengt = 10000;
-        private static readonly object  ob = new object();
+        private static readonly object ob = new object();
         private static void AddCache(string bcNo)
         {
             ClearCache();
@@ -48,7 +48,7 @@ namespace FeederAnalysis.Cache
                     }
                 }
             }
-           
+
 
         }
 
@@ -71,6 +71,28 @@ namespace FeederAnalysis.Cache
             }
             else
             {
+                var entity = SingletonHelper.UsapInstance.GetByBcNo(bcNo);
+                if (entity != null)
+                {
+                    var cache = new UpnEntity()
+                    {
+                        upnID = bcNo,
+                        partNo = entity.PART_NO
+                    };
+                    if (string.Equals(entity.BC_TYPE, "EM", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var bcTokusai = SingletonHelper.UsapInstance.GetBcTokusai(bcNo);
+                        if (bcTokusai != null)
+                        {
+                            cache.emNo = bcTokusai.EM_NO;
+                            cache.partFm = bcTokusai.PART_FM;
+                            cache.partTo = bcTokusai.PART_TO;
+
+                        }
+                    }
+                    log.DebugFormat("get from server:", bcNo);
+                    return cache;
+                }
                 return null;
             }
         }

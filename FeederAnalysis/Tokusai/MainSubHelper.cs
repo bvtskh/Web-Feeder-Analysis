@@ -25,7 +25,7 @@ namespace FeederAnalysis.Tokusai
                 var listPartMainSub = Repository.GetAllPartMainSub();
                 var materials = currentMaterials
                     .Join(listPartMainSub, material => material.PART_ID,
-                    mainsub => mainsub.PART_FROM,
+                    mainsub => mainsub.PART_FROM.ToUpper().Trim(),
                     (material, mainsub) => new MaterialOrderItem
                     {
                         PART_ID = material.PART_ID,
@@ -101,7 +101,7 @@ namespace FeederAnalysis.Tokusai
 
         private bool IsChangeMainSub(MainSub_Model model, List<string> listOldPart, List<string> listNewPart)
         {
-            if (listOldPart.Contains(model.PART_FROM) && listNewPart.Contains(model.PART_TO)) return true;
+            if (listOldPart.Contains(model.PART_FROM.ToUpper().Trim()) && listNewPart.Contains(model.PART_TO.ToUpper().Trim())) return true;
             return false;
         }
      
