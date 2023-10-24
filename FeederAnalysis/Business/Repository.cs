@@ -80,6 +80,21 @@ namespace FeederAnalysis.Business
 
         }
 
+        internal static void VerifiedOrderItem_Update(DataTable dt)
+        {
+            using (var context = new DataContext())
+            {
+                var StaffCodeParam = new SqlParameter("@Data", dt)
+                {
+                    TypeName = "dbo.udt_LoadedOrderItem",
+                    SqlDbType = SqlDbType.Structured
+                };
+                context.Database
+                   .ExecuteSqlCommand("exec VerifiedOrderItem_Update @Data",
+                   StaffCodeParam);
+            }
+        }
+
         private static int MapTask(int task)
         {
             int result = 0;
@@ -180,7 +195,6 @@ namespace FeederAnalysis.Business
             {
                 var res = context.Database.SqlQuery<MaterialOrderItem>("FindAllMaterialOrderItem", "");
                 return res.ToList();
-
             }
         }
 
@@ -478,5 +492,51 @@ namespace FeederAnalysis.Business
             }
         }
 
+        public static string LoadedOrderItem_Update(DataTable dt)
+        {
+            try
+            {
+                using (DataContext context = new DataContext())
+                {
+                    var StaffCodeParam = new SqlParameter("@Data", dt)
+                    {
+                        TypeName = "dbo.udt_LoadedOrderItem",
+                        SqlDbType = SqlDbType.Structured
+                    };
+                    context.Database
+                       .ExecuteSqlCommand("exec LoadedOrderItem_Update @Data",
+                       StaffCodeParam);
+                    Console.Write("");
+                    return "";
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("LoadedOrderItem_Update", ex);
+                return ex.Message;
+            }
+
+        }
+
+        public static List<VerifyLoadedEntity> FindVerifiedOrderItem()
+        {
+            using (UmesContext context = new UmesContext())
+            {
+                var firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 50, 00);
+                var dateParam = new SqlParameter("@Date", firstTimeCheck);
+                var res = context.Database.SqlQuery<VerifyLoadedEntity>("FindVerifiedOrderItem @Date", dateParam);
+                return res.ToList();
+            }
+        }
+
+        public static List<VerifyLoadedEntity> GetAllLoadedOrderItem()
+        {
+            using (var context = new DataContext())
+            {
+                string sql = $@"SELECT * FROM LoadedOrderItem";
+                return context.Database.SqlQuery<VerifyLoadedEntity>(sql, "").ToList();
+                
+            }
+        }
     }
 }

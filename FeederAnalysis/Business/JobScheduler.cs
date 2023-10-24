@@ -86,8 +86,6 @@ namespace FeederAnalysis.Business
             //  .WithIdentity("gaJob")
             //  .Build();
 
-
-
             IJobDetail solderJob = JobBuilder.Create<SolderJob>()
             .WithIdentity("soilderJob")
             .Build();
@@ -127,17 +125,42 @@ namespace FeederAnalysis.Business
                 .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(10, 15))
                 )
                 .Build();
+
+            IJobDetail loadedOrderItemJob = JobBuilder.Create<LoadedOrderItemJob>()
+             .WithIdentity("loadedOrderItemJob")
+             .Build();
+
+            ITrigger loadedOrderItemTrigger = TriggerBuilder.Create()
+                .WithIdentity("loadedOrderItemTrigger")
+                .StartNow()
+                .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
+                .OnEveryDay()
+                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(09, 40))
+                )
+                .Build();
+
+            IJobDetail verifedOrderItemJob = JobBuilder.Create<VerifedOrderItemJob>()
+             .WithIdentity("verifedOrderItemJob")
+             .Build();
+
+            ITrigger verifedOrderItemTrigger = TriggerBuilder.Create()
+                .WithIdentity("verifedOrderItemTrigger")
+                .StartNow()
+                .WithSimpleSchedule(r => r.WithIntervalInMinutes(1)
+                .RepeatForever())
+                .Build();
             scheduler.ScheduleJob(feederJob, feederTrigger);
             scheduler.ScheduleJob(tokusaiJob, tokusaiTrigger);
             scheduler.ScheduleJob(tokusaiAlarmJob, tokusaiAlarmTrigger);
             scheduler.ScheduleJob(opeJob, opeTrigger);
-            //scheduler.ScheduleJob(gaJob, gaTrigger);
             scheduler.ScheduleJob(solderJob, soilderTrigger);
             scheduler.ScheduleJob(kyoJob, kyoTrigger);
             scheduler.ScheduleJob(profileJob, profileTrigger);
             scheduler.ScheduleJob(eduJob, eduTrigger);
             scheduler.ScheduleJob(eyeJob, eyeTrigger);
             scheduler.ScheduleJob(mainsubAlarmJob, mainsubAlarmTrigger);
+            scheduler.ScheduleJob(loadedOrderItemJob, loadedOrderItemTrigger);
+            scheduler.ScheduleJob(verifedOrderItemJob, verifedOrderItemTrigger);
         }
     }
 }
