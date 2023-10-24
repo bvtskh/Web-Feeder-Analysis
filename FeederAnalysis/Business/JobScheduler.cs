@@ -135,7 +135,7 @@ namespace FeederAnalysis.Business
                 .StartNow()
                 .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
                 .OnEveryDay()
-                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(09, 40))
+                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(7, 59))
                 )
                 .Build();
 
