@@ -17,6 +17,7 @@ namespace FeederAnalysis.Business
             int feederInterval = Bet.Util.Config.GetValue("FeederInterval").ToInt();
             int tokusaiInterval = Bet.Util.Config.GetValue("TokusaiInterval").ToInt();
             int mainsubInterval = Bet.Util.Config.GetValue("MainSubInterval").ToInt();
+            int verifyInterval = Bet.Util.Config.GetValue("VerifyInterval").ToInt();
             int opeInterval = 10;
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
@@ -146,7 +147,7 @@ namespace FeederAnalysis.Business
             ITrigger verifedOrderItemTrigger = TriggerBuilder.Create()
                 .WithIdentity("verifedOrderItemTrigger")
                 .StartNow()
-                .WithSimpleSchedule(r => r.WithIntervalInMinutes(1)
+                .WithSimpleSchedule(r => r.WithIntervalInMinutes(verifyInterval)
                 .RepeatForever())
                 .Build();
             scheduler.ScheduleJob(feederJob, feederTrigger);
