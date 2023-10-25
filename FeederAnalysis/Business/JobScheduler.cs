@@ -134,10 +134,7 @@ namespace FeederAnalysis.Business
             ITrigger loadedOrderItemTrigger = TriggerBuilder.Create()
                 .WithIdentity("loadedOrderItemTrigger")
                 .StartNow()
-                .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
-                .OnEveryDay()
-                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(7, 59))
-                )
+                .WithCronSchedule("0 59 7,19 ? * * *")
                 .Build();
 
             IJobDetail verifedOrderItemJob = JobBuilder.Create<VerifedOrderItemJob>()

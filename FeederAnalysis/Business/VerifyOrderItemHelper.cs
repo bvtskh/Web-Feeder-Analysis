@@ -25,11 +25,12 @@ namespace FeederAnalysis.Business
                 dt.Columns.Add("UPD_TIME", typeof(DateTime));
                 dt.Columns.Add("PRODUCT_ID", typeof(string));
                 dt.Columns.Add("IS_VERIFIED", typeof(bool));
+                dt.Columns.Add("UPD_VERIFY_TIME", typeof(DateTime));
                 foreach (var material in currentMaterials)
                 {
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PRODUCTION_ORDER_ID,material.PART_ID,
-                    material.MACHINE_ID,material.MACHINE_SLOT,DateTime.Now,material.PRODUCT_ID,false});
+                    material.MACHINE_ID,material.MACHINE_SLOT,DateTime.Now,material.PRODUCT_ID,false,DateTime.Now});
                 }
                 Repository.LoadedOrderItem_Update(dt);
 
