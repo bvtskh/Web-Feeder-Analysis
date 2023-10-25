@@ -47,41 +47,18 @@ namespace FeederAnalysis.Business
             {
                 Stopwatch t = new Stopwatch();
                 t.Start();
-                var currentMaterials = Repository.FindVerifiedOrderItem()
-                     .GroupBy(c => new
-                     {
-                         c.LINE_ID,
-                         c.PRODUCT_ID,
-                         c.PART_ID,
-                         c.MACHINE_ID,
-                         c.MACHINE_SLOT
-                     }).Select(gcs => new
-                     {
-                         LINE_ID = gcs.Key.LINE_ID,
-                         PRODUCT_ID = gcs.Key.PRODUCT_ID,
-                         PART_ID = gcs.Key.PART_ID,
-                         MACHINE_ID = gcs.Key.MACHINE_ID,
-                         MACHINE_SLOT = gcs.Key.MACHINE_SLOT,
-                         LIST = gcs.ToList(),
-                     });
-                DataTable dt = new DataTable();
-                dt.Columns.Add("LINE_ID", typeof(string));
-                dt.Columns.Add("WO", typeof(string));
-                dt.Columns.Add("PART_ID", typeof(string));
-                dt.Columns.Add("MACHINE_ID", typeof(string));
-                dt.Columns.Add("MACHINE_SLOT", typeof(string));
-                dt.Columns.Add("UPD_TIME", typeof(DateTime));
-                dt.Columns.Add("PRODUCT_ID", typeof(string));
-                dt.Columns.Add("IS_VERIFIED", typeof(bool));
-                foreach (var material in currentMaterials)
+                var currentMaterials = Repository.FindVerifiedOrderItem().ToList();
+                var currentLoadedOrderItem = Repository.FindLoadedOrderItem();
+                foreach (var item in currentLoadedOrderItem)
                 {
-                    var firstItem = material.LIST.FirstOrDefault();
-                    dt.Rows.Add(new object[] {
-                    material.LINE_ID,  firstItem.PRODUCTION_ORDER_ID,material.PART_ID,
-                    material.MACHINE_ID,material.MACHINE_SLOT,DateTime.Now,material.PRODUCT_ID,false
-                });
+                    if(currentMaterials.Where(m => m.LINE_ID == item.LINE_ID && m.PART_ID == item.PART_ID
+                      && m.PRODUCT_ID == item.PRODUCT_ID 
+                      && m.MACHINE_ID == item.MACHINE_ID
+                      && m.MACHINE_SLOT == item.MACHINE_SLOT).FirstOrDefault() != null)
+                    {
+                        Repository.UpdateVerifiedOrderItem(item);
+                    }
                 }
-                Repository.VerifiedOrderItem_Update(dt);
                 t.Stop();
                 Debug.WriteLine(t.ElapsedMilliseconds.ToString());
             }

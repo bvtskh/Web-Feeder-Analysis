@@ -80,6 +80,40 @@ namespace FeederAnalysis.Business
 
         }
 
+        internal static void UpdateVerifiedOrderItem(VerifyLoadedEntity item)
+        {
+            using (var context = new DataContext())
+            {
+                string sql = $@"  UPDATE [SMT].[dbo].[LoadedOrderItem] 
+                                  SET IS_VERIFIED = 1, UPD_VERIFY_TIME = GETDATE()
+                                  WHERE LINE_ID = '{item.LINE_ID}' 
+                                  AND PART_ID = '{item.PART_ID}' 
+                                  AND MACHINE_ID = '{item.MACHINE_ID}' 
+                                  AND MACHINE_SLOT = '{item.MACHINE_SLOT}' 
+                                  AND PRODUCT_ID = '{item.PRODUCT_ID}'
+                                ";
+                context.Database.ExecuteSqlCommand(sql, "");
+            }
+        }
+
+        internal static List<VerifyLoadedEntity> FindLoadedOrderItem()
+        {
+            using (var context = new DataContext())
+            {
+                var sql = $@"SELECT [LINE_ID]
+                                   ,[PART_ID]
+                                  ,[MACHINE_ID]
+                                  ,[MACHINE_SLOT]
+                                  ,[UPD_TIME]
+                                  ,[PRODUCT_ID]
+                                  ,[IS_VERIFIED]
+                                  ,[PRODUCTION_ORDER_ID]
+                                  ,[IS_VERIFIED]
+                              FROM [{DB}].[dbo].[LoadedOrderItem] where IS_VERIFIED = 0";
+                return context.Database.SqlQuery<VerifyLoadedEntity>(sql, "").ToList();
+            }
+        }
+
         internal static void VerifiedOrderItem_Update(DataTable dt)
         {
             using (var context = new DataContext())
@@ -522,7 +556,7 @@ namespace FeederAnalysis.Business
         {
             using (UmesContext context = new UmesContext())
             {
-                var firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 50, 00);
+                var firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
                 var dateParam = new SqlParameter("@Date", firstTimeCheck);
                 var res = context.Database.SqlQuery<VerifyLoadedEntity>("FindVerifiedOrderItem @Date", dateParam);
                 return res.ToList();
