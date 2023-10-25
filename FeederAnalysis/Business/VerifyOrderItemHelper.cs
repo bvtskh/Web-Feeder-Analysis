@@ -18,10 +18,10 @@ namespace FeederAnalysis.Business
                 var currentMaterials = Repository.FindAllMaterialItem();
                 DataTable dt = new DataTable();
                 dt.Columns.Add("LINE_ID", typeof(string));
-                dt.Columns.Add("WO", typeof(string));
+                dt.Columns.Add("PRODUCTION_ORDER_ID", typeof(string));
                 dt.Columns.Add("PART_ID", typeof(string));
                 dt.Columns.Add("MACHINE_ID", typeof(string));
-                dt.Columns.Add("MACHINE_SLOT", typeof(string));
+                dt.Columns.Add("MACHINE_SLOT", typeof(int));
                 dt.Columns.Add("UPD_TIME", typeof(DateTime));
                 dt.Columns.Add("PRODUCT_ID", typeof(string));
                 dt.Columns.Add("IS_VERIFIED", typeof(bool));
@@ -29,8 +29,7 @@ namespace FeederAnalysis.Business
                 {
                     dt.Rows.Add(new object[] {
                     material.LINE_ID,  material.PRODUCTION_ORDER_ID,material.PART_ID,
-                    material.MACHINE_ID,material.MACHINE_SLOT,DateTime.Now,material.PRODUCT_ID,false
-                });
+                    material.MACHINE_ID,material.MACHINE_SLOT,DateTime.Now,material.PRODUCT_ID,false});
                 }
                 Repository.LoadedOrderItem_Update(dt);
 
