@@ -556,7 +556,22 @@ namespace FeederAnalysis.Business
         {
             using (UmesContext context = new UmesContext())
             {
-                var firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+                var dayShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+                var nightShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0);
+                var firstTimeCheck = new DateTime();
+                if (DateTime.Now > dayShift && DateTime.Now < nightShift)
+                {
+                    firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+                }
+                else if (DateTime.Now > nightShift)
+                {
+                    firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0);
+                }
+                else if (DateTime.Now < dayShift)
+                {
+                    firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1, 20, 0, 0);
+                }
+
                 var dateParam = new SqlParameter("@Date", firstTimeCheck);
                 var res = context.Database.SqlQuery<VerifyLoadedEntity>("FindVerifiedOrderItem @Date", dateParam);
                 return res.ToList();
@@ -569,7 +584,7 @@ namespace FeederAnalysis.Business
             {
                 string sql = $@"SELECT * FROM LoadedOrderItem";
                 return context.Database.SqlQuery<VerifyLoadedEntity>(sql, "").ToList();
-                
+
             }
         }
     }
