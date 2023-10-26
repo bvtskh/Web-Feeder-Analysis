@@ -115,17 +115,6 @@ namespace FeederAnalysis.Business
         {
             using (var context = new DataContext())
             {
-                var currentMaterials = FindAllMaterialItem();
-                DataTable dt = new DataTable();
-                dt.Columns.Add("LINE_ID", typeof(string));
-                dt.Columns.Add("PART_ID", typeof(string));
-                dt.Columns.Add("PRODUCT_ID", typeof(string));
-                dt.Columns.Add("UPD_TIME", typeof(DateTime));
-                dt.Columns.Add("IS_TOKUSAI", typeof(bool));
-                dt.Columns.Add("WO", typeof(string));
-                dt.Columns.Add("IS_DM_ACCEPT", typeof(bool));
-                dt.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
-
                 var sql = $@"SELECT [LINE_ID]
                                    ,[PART_ID]
                                   ,[MACHINE_ID]

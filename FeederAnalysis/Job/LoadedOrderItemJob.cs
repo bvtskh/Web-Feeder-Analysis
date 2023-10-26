@@ -1,6 +1,7 @@
 ﻿using FeederAnalysis.Business;
 using FeederAnalysis.Tokusai;
 using Quartz;
+using Quartz.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace FeederAnalysis.Job
         public void Execute(IJobExecutionContext context)
         {
             new VerifyOrderItemHelper().LoadedOrderItem();
+            IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
+            scheduler.ResumeJob(new JobKey("verifedOrderItemJob"));
         }
     }
 }
