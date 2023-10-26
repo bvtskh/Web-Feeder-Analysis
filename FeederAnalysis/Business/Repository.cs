@@ -84,7 +84,7 @@ namespace FeederAnalysis.Business
         {
             using (var context = new DataContext())
             {
-                string sql = $@"  UPDATE [SMT].[dbo].[LoadedOrderItem] 
+                string sql = $@"  UPDATE [{DB}].[dbo].[LoadedOrderItem] 
                                   SET IS_VERIFIED = 1, UPD_VERIFY_TIME = GETDATE()
                                   WHERE LINE_ID = '{item.LINE_ID}' 
                                   AND PART_ID = '{item.PART_ID}' 
@@ -96,10 +96,36 @@ namespace FeederAnalysis.Business
             }
         }
 
+        internal static void CurrentOrderItem_Update(DataTable dt)
+        {
+            using (var context = new DataContext())
+            {
+                var StaffCodeParam = new SqlParameter("@Data", dt)
+                {
+                    TypeName = "dbo.udt_LoadedOrderItem",
+                    SqlDbType = SqlDbType.Structured
+                };
+                context.Database
+                   .ExecuteSqlCommand("exec CurrentOrderItem_Update @Data",
+                   StaffCodeParam);
+            }
+        }
+
         internal static List<VerifyLoadedEntity> FindLoadedOrderItem()
         {
             using (var context = new DataContext())
             {
+                var currentMaterials = FindAllMaterialItem();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("LINE_ID", typeof(string));
+                dt.Columns.Add("PART_ID", typeof(string));
+                dt.Columns.Add("PRODUCT_ID", typeof(string));
+                dt.Columns.Add("UPD_TIME", typeof(DateTime));
+                dt.Columns.Add("IS_TOKUSAI", typeof(bool));
+                dt.Columns.Add("WO", typeof(string));
+                dt.Columns.Add("IS_DM_ACCEPT", typeof(bool));
+                dt.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
+
                 var sql = $@"SELECT [LINE_ID]
                                    ,[PART_ID]
                                   ,[MACHINE_ID]
@@ -574,7 +600,7 @@ namespace FeederAnalysis.Business
 
                 var dateParam = new SqlParameter("@Date", firstTimeCheck);
                 var res = context.Database.SqlQuery<VerifyLoadedEntity>("FindVerifiedOrderItem @Date", dateParam);
-                return res.ToList();
+                 return res.ToList();
             }
         }
 
