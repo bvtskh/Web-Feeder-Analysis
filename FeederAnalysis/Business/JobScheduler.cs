@@ -147,6 +147,19 @@ namespace FeederAnalysis.Business
                 .WithSimpleSchedule(r => r.WithIntervalInMinutes(verifyInterval)
                 .RepeatForever())
                 .Build();
+
+            IJobDetail checkPartQuantityJob = JobBuilder.Create<CheckPartQuantityJob>()
+           .WithIdentity("checkPartQuantityJob")
+           .Build();
+
+            ITrigger checkPartQuantityTrigger = TriggerBuilder.Create()
+                .WithIdentity("checkPartQuantityTrigger")
+                .StartNow()
+                .WithDailyTimeIntervalSchedule(r => r.WithIntervalInHours(24)
+                .OnEveryDay()
+                .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(0, 0))
+                )
+                .Build();
             scheduler.ScheduleJob(feederJob, feederTrigger);
             scheduler.ScheduleJob(tokusaiJob, tokusaiTrigger);
             scheduler.ScheduleJob(tokusaiAlarmJob, tokusaiAlarmTrigger);
@@ -159,6 +172,7 @@ namespace FeederAnalysis.Business
             scheduler.ScheduleJob(mainsubAlarmJob, mainsubAlarmTrigger);
             scheduler.ScheduleJob(loadedOrderItemJob, loadedOrderItemTrigger);
             scheduler.ScheduleJob(verifedOrderItemJob, verifedOrderItemTrigger);
+            scheduler.ScheduleJob(checkPartQuantityJob, checkPartQuantityTrigger);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using FeederAnalysis.Cache;
 using FeederAnalysis.DAL;
+using FeederAnalysis.DAL.COST;
 using FeederAnalysis.DAL.UMES;
+using FeederAnalysis.DAL.USAP;
 using FeederAnalysis.Models;
 using System;
 using System.Collections.Generic;
@@ -601,6 +603,105 @@ namespace FeederAnalysis.Business
                 return context.Database.SqlQuery<VerifyLoadedEntity>(sql, "").ToList();
 
             }
+        }
+
+        public static List<PartQuantityModel> ShowPartQuantity(DataTable dt)
+        {
+            try
+            {
+                using (USAPContext context = new USAPContext())
+                {
+                    var upnParam = new SqlParameter("@Data", dt)
+                    {
+                        TypeName = "dbo.udt_PartQuantity",
+                        SqlDbType = SqlDbType.Structured
+                    };
+                    var result =  context.Database.SqlQuery<PartQuantityModel>("exec ShowPartInlineQuantity @Data",
+                       upnParam).ToList();
+                    Console.Write("");
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("ShowPartInlineQuantity", ex);
+                return null;
+            }
+
+        }
+
+        internal static List<PartQuantityModel> ShowPartQuantityInUMes()
+        {
+            try
+            {
+                using (UmesContext context = new UmesContext())
+                {
+                    var res = context.Database.SqlQuery<PartQuantityModel>("ShowPartQuantity", "");
+                    return res.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("ShowPartQuantityInUMes", ex);
+                return null;
+            }
+           
+        }
+
+        public static void UpdateStock(List<PartQuantityModel> result)
+        {
+            try
+            {
+                using (COSTSystemContext context = new COSTSystemContext())
+                {
+                    DataTable dt = new DataTable();
+                    dt.Columns.Add("PO_NO", typeof(string));
+                    dt.Columns.Add("PO_LINE", typeof(int));
+                    dt.Columns.Add("PART_NO", typeof(string));
+                    dt.Columns.Add("RV_YEAR", typeof(int));
+                    dt.Columns.Add("RV_MONTH", typeof(int));
+                    dt.Columns.Add("OS_QTY", typeof(double));
+                   
+                    var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE }).Select(n => new
+                    {
+                        PO_NO = n.Key.PO_NO,
+                        PO_LINE = n.Key.PO_LINE,
+                        PART_ID = n.LastOrDefault().PART_ID,
+                        QUANTITY = n.Sum(m => m.QUANTITY),
+                        LIST = n.ToList()
+                    });
+                    foreach (var item in groupByPO)
+                    {
+                        if (item.PO_NO == "7100032927" && item.PO_LINE == 4)
+                        {
+                            Debug.WriteLine("xxxx:", item.PART_ID);
+                        }
+                        dt.Rows.Add(new object[]
+                        {
+                        item.PO_NO,
+                        item.PO_LINE,
+                        item.PART_ID,
+                        DateTime.Now.Year,
+                        DateTime.Now.Month,
+                        item.QUANTITY
+                        });
+                    }
+                    var dataParam = new SqlParameter("@Data", dt)
+                    {
+                        TypeName = "dbo.Udt_PO_STOCK2",
+                        SqlDbType = SqlDbType.Structured
+                    };
+                    context.Database
+                       .ExecuteSqlCommand("exec POStock_Update2 @Data",
+                       dataParam);
+                }
+            }
+            catch (Exception ex) 
+            {
+                log.Error("UpdateStock", ex);
+            }
+            
+            
         }
     }
 }

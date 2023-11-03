@@ -160,6 +160,7 @@
     <Compile Include="Business\Comparint.cs" />
     <Compile Include="Business\EmailHelper.cs" />
     <Compile Include="Business\FeederHelper.cs" />
+    <Compile Include="Business\PartInfoHelper.cs" />
     <Compile Include="Business\VerifyOrderItemHelper.cs" />
     <Compile Include="Connected Services\ErpService\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -171,10 +172,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
+    <Compile Include="DAL\COST\COSTSystemContext.cs" />
     <Compile Include="DAL\LCA\PIContext.cs" />
+    <Compile Include="DAL\USAP\USAPContext.cs" />
     <Compile Include="Entities\ShiftEntity.cs" />
     <Compile Include="Job\CaliJob.cs" />
     <Compile Include="DAL\DXContext.cs" />
+    <Compile Include="Job\CheckPartQuantityJob.cs" />
     <Compile Include="Job\EduEyeJob.cs" />
     <Compile Include="Job\EduHelper.cs" />
     <Compile Include="Job\VerifedOrderItemJob.cs" />
@@ -183,6 +187,7 @@
     <Compile Include="Job\TokusaiAlarmJob.cs" />
     <Compile Include="Models\EyeEntity.cs" />
     <Compile Include="Models\MainSub_Model.cs" />
+    <Compile Include="Models\PartQuantityModel.cs" />
     <Compile Include="Models\PROFILER_INFO.cs" />
     <Compile Include="Job\ProfilerJob.cs" />
     <Compile Include="Job\KyoJob.cs" />
