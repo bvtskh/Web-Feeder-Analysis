@@ -616,7 +616,7 @@ namespace FeederAnalysis.Business
                         TypeName = "dbo.udt_PartQuantity",
                         SqlDbType = SqlDbType.Structured
                     };
-                    var result =  context.Database.SqlQuery<PartQuantityModel>("exec ShowPartInlineQuantity @Data",
+                    var result =  context.Database.SqlQuery<PartQuantityModel>("exec ShowPartQuantity @Data",
                        upnParam).ToList();
                     Console.Write("");
                     return result;
