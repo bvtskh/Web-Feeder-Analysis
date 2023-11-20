@@ -661,7 +661,8 @@ namespace FeederAnalysis.Business
                     dt.Columns.Add("RV_YEAR", typeof(int));
                     dt.Columns.Add("RV_MONTH", typeof(int));
                     dt.Columns.Add("OS_QTY", typeof(double));
-                   
+                    dt.Columns.Add("REC_DATE", typeof(DateTime));
+
                     var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE }).Select(n => new
                     {
                         PO_NO = n.Key.PO_NO,
@@ -683,7 +684,8 @@ namespace FeederAnalysis.Business
                         item.PART_ID,
                         DateTime.Now.Year,
                         DateTime.Now.Month,
-                        item.QUANTITY
+                        item.QUANTITY,
+                        item.LIST.Min(m => m.REC_DATE)
                         });
                     }
                     var dataParam = new SqlParameter("@Data", dt)
