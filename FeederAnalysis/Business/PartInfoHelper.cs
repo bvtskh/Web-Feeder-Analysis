@@ -20,6 +20,10 @@ namespace FeederAnalysis.Business
             dt.Columns.Add("QUANTITY", typeof(float));
             foreach (var material in currentMaterials)
             {
+                if(material.UPN_ID == "NP8Q1FR")
+                {
+                    Console.Write("");
+                }
                 dt.Rows.Add(new object[] {
                     material.UPN_ID,  material.PART_ID,material.QUANTITY});
             }

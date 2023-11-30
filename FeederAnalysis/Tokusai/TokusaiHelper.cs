@@ -200,10 +200,12 @@ namespace FeederAnalysis.Tokusai
                {
                    c.LINE_ID,
                    c.PART_ID,
+                   c.PRODUCT_ID
                }).Select(gcs => new
                {
                    LINE_ID = gcs.Key.LINE_ID,
                    PART_ID = gcs.Key.PART_ID,
+                   PRODUCT_ID = gcs.Key.PRODUCT_ID,
                    LIST = gcs.ToList(),
                });
 
@@ -221,9 +223,19 @@ namespace FeederAnalysis.Tokusai
                 {
                     MaterialOrderItem upnFirst = material.LIST.FirstOrDefault();
                     dt.Rows.Add(new object[] {
-                    material.LINE_ID,  material.PART_ID,upnFirst.PRODUCT_ID,
+                    material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
                     DateTime.Now,IsTokusai(material.LIST),upnFirst.PRODUCTION_ORDER_ID, IsDMAccept(material.LIST),upnFirst.MATERIAL_ORDER_ID});
                 }
+                //dt.Rows.Add(new object[] {
+                //    "S16"
+                //    , "300-105-717"
+                //    ,"ETP760281",
+                //    DateTime.Now
+                //    ,false
+                //    ,"2000954558"
+                //    , 1
+                //    ,"ETP760281-S16-A-231128"});
+
                 Repository.Tokusai_LineItem_Update(dt);
                 System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
             }
