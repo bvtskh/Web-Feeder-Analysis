@@ -591,7 +591,7 @@ namespace FeederAnalysis.Business
 
                 var dateParam = new SqlParameter("@Date", firstTimeCheck);
                 var res = context.Database.SqlQuery<VerifyLoadedEntity>("FindVerifiedOrderItem @Date", dateParam);
-                 return res.ToList();
+                return res.ToList();
             }
         }
 
@@ -616,7 +616,7 @@ namespace FeederAnalysis.Business
                         TypeName = "dbo.udt_PartQuantity",
                         SqlDbType = SqlDbType.Structured
                     };
-                    var result =  context.Database.SqlQuery<PartQuantityModel>("exec ShowPartQuantity @Data",
+                    var result = context.Database.SqlQuery<PartQuantityModel>("exec ShowPartQuantity @Data",
                        upnParam).ToList();
                     Console.Write("");
                     return result;
@@ -628,24 +628,6 @@ namespace FeederAnalysis.Business
                 return null;
             }
 
-        }
-
-        internal static List<PartQuantityModel> ShowPartQuantityInUMes()
-        {
-            try
-            {
-                using (UmesContext context = new UmesContext())
-                {
-                    var res = context.Database.SqlQuery<PartQuantityModel>("ShowPartQuantity", "");
-                    return res.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("ShowPartQuantityInUMes", ex);
-                return null;
-            }
-           
         }
 
         public static void UpdateStock(List<PartQuantityModel> result)
@@ -662,9 +644,11 @@ namespace FeederAnalysis.Business
                     dt.Columns.Add("RV_MONTH", typeof(int));
                     dt.Columns.Add("OS_QTY", typeof(double));
                     dt.Columns.Add("REC_DATE", typeof(DateTime));
+                    dt.Columns.Add("TN_NO", typeof(string));
 
-                    var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE }).Select(n => new
+                    var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE, m.TN_NO }).Select(n => new
                     {
+                        TN_NO = n.Key.TN_NO,
                         PO_NO = n.Key.PO_NO,
                         PO_LINE = n.Key.PO_LINE,
                         PART_ID = n.LastOrDefault().PART_ID,
@@ -685,12 +669,13 @@ namespace FeederAnalysis.Business
                         DateTime.Now.Year,
                         DateTime.Now.Month,
                         item.QUANTITY,
-                        item.LIST.Min(m => m.REC_DATE)
+                        item.LIST.Min(m => m.REC_DATE),
+                        item.TN_NO
                         });
                     }
                     var dataParam = new SqlParameter("@Data", dt)
                     {
-                        TypeName = "dbo.Udt_PO_STOCK2",
+                        TypeName = "dbo.Udt_PO_STOCK",
                         SqlDbType = SqlDbType.Structured
                     };
                     context.Database
@@ -698,12 +683,64 @@ namespace FeederAnalysis.Business
                        dataParam);
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 log.Error("UpdateStock", ex);
             }
-            
-            
+
+
+        }
+
+        public static List<string> ShowPartSMT()
+        {
+            try
+            {
+                using (USAPContext context = new USAPContext())
+                {
+                    var result = context.Database.SqlQuery<string>("exec ShowPartSMT").ToList();
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("ShowPartSMT", ex);
+                return null;
+            }
+
+        }
+        public static List<UPN_STATUS> GetQuantitySMT(List<string> partNos)
+        {
+            try
+            {
+                using (UmesContext context = new UmesContext())
+                {
+                    string sql = $@"SELECT [CURRENT_QUANTITY]
+                                  ,[PART_ID]
+                                  ,[UPN_ID]
+                              FROM [UMC_MESDB_TEST].[dbo].[UPN_STATUS]
+                              WHERE  IS_FINISHED = 0 
+                                   AND PART_ID IN(";
+                    for (int i = 0; i < partNos.Count; i++)
+                    {
+                        var partNo = partNos[i];
+                        sql += $"'{partNo}'";
+                        if (i < partNos.Count - 1)
+                        {
+                            sql += ",";
+                        }
+                        else
+                        {
+                            sql += ")";
+                        }
+                    }
+                    return context.Database.SqlQuery<UPN_STATUS>(sql).ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("GetQuantitySMT", ex);
+                return null;
+            }
         }
     }
 }

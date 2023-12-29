@@ -239,6 +239,7 @@
     <Compile Include="Models\Tokusai_Item.cs" />
     <Compile Include="Models\Tokusai_LineHistory.cs" />
     <Compile Include="Models\Tokusai_LineItem.cs" />
+    <Compile Include="Models\UPN_STATUS.cs" />
     <Compile Include="Models\VerifyLoadedEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tokusai\MainSubHelper.cs" />

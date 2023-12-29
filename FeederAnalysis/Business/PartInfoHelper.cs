@@ -13,22 +13,21 @@ namespace FeederAnalysis.Business
         {
             Stopwatch t = new Stopwatch();
             t.Start();
-            var currentMaterials = Repository.ShowPartQuantityInUMes();
+           
+            var partSMT = Repository.ShowPartSMT();
+            var stockSMT = Repository.GetQuantitySMT(partSMT);
+
             DataTable dt = new DataTable();
             dt.Columns.Add("UPN_ID", typeof(string));
             dt.Columns.Add("PART_ID", typeof(string));
             dt.Columns.Add("QUANTITY", typeof(float));
-            foreach (var material in currentMaterials)
+            foreach (var material in stockSMT)
             {
-                if(material.UPN_ID == "NP8Q1FR")
-                {
-                    Console.Write("");
-                }
                 dt.Rows.Add(new object[] {
-                    material.UPN_ID,  material.PART_ID,material.QUANTITY});
+                    material.UPN_ID, material.PART_ID, material.CURRENT_QUANTITY});
             }
-            var result = Repository.ShowPartQuantity(dt);
-            Repository.UpdateStock(result);
+            var stockInSAP = Repository.ShowPartQuantity(dt);
+            Repository.UpdateStock(stockInSAP);
             t.Stop();
             Console.Write(t.ElapsedMilliseconds);
         }

@@ -13,5 +13,6 @@ namespace FeederAnalysis.Models
         public int PO_LINE { get; set; }
         public double QUANTITY { get; set; }
         public DateTime REC_DATE { get; set; }
+        public string TN_NO { get; set; }
     }
 }
