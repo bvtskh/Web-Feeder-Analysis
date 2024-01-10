@@ -14,5 +14,6 @@ namespace FeederAnalysis.Models
         public double QUANTITY { get; set; }
         public DateTime REC_DATE { get; set; }
         public string TN_NO { get; set; }
+        public string STD_CODE { get; set; }
     }
 }

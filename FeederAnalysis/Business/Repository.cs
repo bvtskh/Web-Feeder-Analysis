@@ -616,7 +616,7 @@ namespace FeederAnalysis.Business
                         TypeName = "dbo.udt_PartQuantity",
                         SqlDbType = SqlDbType.Structured
                     };
-                    var result = context.Database.SqlQuery<PartQuantityModel>("exec ShowPartQuantity @Data",
+                    var result = context.Database.SqlQuery<PartQuantityModel>("exec ShowPartQuantity1 @Data",
                        upnParam).ToList();
                     Console.Write("");
                     return result;
@@ -645,10 +645,10 @@ namespace FeederAnalysis.Business
                     dt.Columns.Add("OS_QTY", typeof(double));
                     dt.Columns.Add("REC_DATE", typeof(DateTime));
                     dt.Columns.Add("TN_NO", typeof(string));
+                    dt.Columns.Add("STD_CODE", typeof(string));
 
-                    var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE, m.TN_NO }).Select(n => new
+                    var groupByPO = result.GroupBy(m => new { m.PO_NO, m.PO_LINE }).Select(n => new
                     {
-                        TN_NO = n.Key.TN_NO,
                         PO_NO = n.Key.PO_NO,
                         PO_LINE = n.Key.PO_LINE,
                         PART_ID = n.LastOrDefault().PART_ID,
@@ -670,16 +670,17 @@ namespace FeederAnalysis.Business
                         DateTime.Now.Month,
                         item.QUANTITY,
                         item.LIST.Min(m => m.REC_DATE),
-                        item.TN_NO
+                        "",
+                        item.LIST[0].STD_CODE
                         });
                     }
                     var dataParam = new SqlParameter("@Data", dt)
                     {
-                        TypeName = "dbo.Udt_PO_STOCK",
+                        TypeName = "dbo.Udt_PO_STOCK1",
                         SqlDbType = SqlDbType.Structured
                     };
                     context.Database
-                       .ExecuteSqlCommand("exec POStock_Update2 @Data",
+                       .ExecuteSqlCommand("exec POStock_Update3 @Data",
                        dataParam);
                 }
             }
