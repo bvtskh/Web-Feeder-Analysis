@@ -172,7 +172,6 @@ namespace FeederAnalysis.Business
             scheduler.ScheduleJob(mainsubAlarmJob, mainsubAlarmTrigger);
             scheduler.ScheduleJob(loadedOrderItemJob, loadedOrderItemTrigger);
             scheduler.ScheduleJob(verifedOrderItemJob, verifedOrderItemTrigger);
-            //scheduler.ScheduleJob(checkPartQuantityJob, checkPartQuantityTrigger);
         }
     }
 }
