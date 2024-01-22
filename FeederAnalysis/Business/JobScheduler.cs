@@ -128,15 +128,28 @@ namespace FeederAnalysis.Business
                 .Build();
 
             IJobDetail loadedOrderItemJob = JobBuilder.Create<LoadedOrderItemJob>()
-             .WithIdentity("loadedOrderItemJob")
+             .StoreDurably()
+             .WithIdentity("loadedOrderItemJob", "JobLoad")
              .Build();
-
             ITrigger loadedOrderItemTrigger = TriggerBuilder.Create()
-                .WithIdentity("loadedOrderItemTrigger")
+                .WithIdentity("loadedOrderItemTrigger", "JobLoad1")
                 .StartNow()
-                .WithCronSchedule("0 59 7,19 ? * * *")
+                .WithCronSchedule("0 59 7,19 ? * SUN,TUE,WED,THU,FRI,SAT *")
+                .ForJob(loadedOrderItemJob)
                 .Build();
 
+            ITrigger loadedOrderItemTriggerAMMonday = TriggerBuilder.Create()
+               .WithIdentity("loadedOrderItemTriggerAMMonday", "JobLoad2")
+               .StartNow()
+               .WithCronSchedule("0	59 5 ? * MON *")
+               .ForJob(loadedOrderItemJob)
+               .Build();
+            ITrigger loadedOrderItemTriggerPMMonday = TriggerBuilder.Create()
+               .WithIdentity("loadedOrderItemTriggerPMMonday", "JobLoad3")
+               .StartNow()
+               .WithCronSchedule("0	59 19 ? * MON *")
+               .ForJob(loadedOrderItemJob)
+               .Build();
             IJobDetail verifedOrderItemJob = JobBuilder.Create<VerifedOrderItemJob>()
              .WithIdentity("verifedOrderItemJob")
              .Build();
@@ -170,8 +183,12 @@ namespace FeederAnalysis.Business
             scheduler.ScheduleJob(eduJob, eduTrigger);
             scheduler.ScheduleJob(eyeJob, eyeTrigger);
             scheduler.ScheduleJob(mainsubAlarmJob, mainsubAlarmTrigger);
-            scheduler.ScheduleJob(loadedOrderItemJob, loadedOrderItemTrigger);
             scheduler.ScheduleJob(verifedOrderItemJob, verifedOrderItemTrigger);
+
+            scheduler.AddJob(loadedOrderItemJob, true);
+            scheduler.ScheduleJob(loadedOrderItemTrigger);
+            scheduler.ScheduleJob(loadedOrderItemTriggerAMMonday);
+            scheduler.ScheduleJob(loadedOrderItemTriggerPMMonday);
         }
     }
 }

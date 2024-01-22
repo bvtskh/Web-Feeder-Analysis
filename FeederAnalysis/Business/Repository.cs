@@ -574,15 +574,19 @@ namespace FeederAnalysis.Business
             using (UmesContext context = new UmesContext())
             {
                 var dayShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+                if(DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+                {
+                    dayShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
+                }
                 var nightShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0);
                 var firstTimeCheck = new DateTime();
                 if (DateTime.Now > dayShift && DateTime.Now < nightShift)
                 {
-                    firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
+                    firstTimeCheck = dayShift;
                 }
                 else if (DateTime.Now > nightShift)
                 {
-                    firstTimeCheck = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 20, 0, 0);
+                    firstTimeCheck = nightShift;
                 }
                 else if (DateTime.Now < dayShift)
                 {
