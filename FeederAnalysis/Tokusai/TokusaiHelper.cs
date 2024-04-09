@@ -71,24 +71,24 @@ namespace FeederAnalysis.Tokusai
                 //    lst1.Add(entity);
                 //}
             }
-            materialItem.Where(r => r.PRODUCT_ID.Contains("RM3-8495")).Where(r => r.PART_ID == "VE5-2100-332").ToList().ForEach(r =>
-            {
-                result.Add(new Tokusai_Item()
-                {
-                    EM_NO = "#NA",
-                    PART_ID = r.PART_ID,
-                    ERR_TYPE = 2,
-                    UPN_ID = r.UPN_ID,
-                    LINE_ID = r.LINE_ID,
-                    MACHINE_ID = r.MACHINE_ID,
-                    MACHINE_SLOT = r.MACHINE_SLOT,
-                    MATERIAL_ORDER_ID = r.MATERIAL_ORDER_ID,
-                    PRODUCTION_ORDER_ID = r.PRODUCTION_ORDER_ID,
-                    PRODUCT_ID = r.PRODUCT_ID,
-                    QUANTITY = r.QUANTITY,
-                    IS_FAILED = true
-                });
-            });
+            //materialItem.Where(r => r.PRODUCT_ID.Contains("RM3-8495")).Where(r => r.PART_ID == "VE5-2100-332").ToList().ForEach(r =>
+            //{
+            //    result.Add(new Tokusai_Item()
+            //    {
+            //        EM_NO = "#NA",
+            //        PART_ID = r.PART_ID,
+            //        ERR_TYPE = 2,
+            //        UPN_ID = r.UPN_ID,
+            //        LINE_ID = r.LINE_ID,
+            //        MACHINE_ID = r.MACHINE_ID,
+            //        MACHINE_SLOT = r.MACHINE_SLOT,
+            //        MATERIAL_ORDER_ID = r.MATERIAL_ORDER_ID,
+            //        PRODUCTION_ORDER_ID = r.PRODUCTION_ORDER_ID,
+            //        PRODUCT_ID = r.PRODUCT_ID,
+            //        QUANTITY = r.QUANTITY,
+            //        IS_FAILED = true
+            //    });
+            //});
 
             return result;
         }
@@ -280,6 +280,20 @@ namespace FeederAnalysis.Tokusai
 
             return false;
         }
+        private bool IsTokusai(string upn)
+        {
+            try
+            {
+                var upnEntity = UpnCache.FindBc(upn);
+                if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("");
+            }
+
+            return false;
+        }
 
         private bool IsDMAccept(List<MaterialOrderItem> list)
         {
@@ -307,5 +321,54 @@ namespace FeederAnalysis.Tokusai
             return true;
         }
 
+        private bool IsDMAccept(string UPN_ID, string PRODUCT_ID)
+        {
+            try
+            {
+                var upnEntity = UpnCache.FindBc(UPN_ID);
+                if (!string.IsNullOrEmpty(upnEntity.emNo))
+                {
+                    var lstModelAccept = SingletonHelper.ErpInstance.FindTokusai(upnEntity.emNo, upnEntity.partFm, upnEntity.partTo).Select(r => r.PRODUCT_ID).ToList();
+                    if (lstModelAccept.Count != 0 &&
+                        !lstModelAccept.Contains(PRODUCT_ID))
+                    {
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message.ToString());
+            }
+
+            return true;
+        }
+        public void Tokusai_LineItem_OP_LOGS_Update()
+        {
+            try
+            {
+                var lastIndexRequest = Repository.GetLastIndexRequest();
+                var start = lastIndexRequest.TIME_RUNNING;
+                var end = DateTime.Now;
+                var list = Repository.DX_GetOperationLogByTime(start, end);
+                foreach (var item in list)
+                {
+                    if (item.ID.ToString().ToUpper() == lastIndexRequest.ID.ToUpper()) continue;
+                    item.IS_TOKUSAI =  IsTokusai(item.UPN_ID);
+                    item.IS_DM_ACCEPT = IsDMAccept(item.UPN_ID, item.PRODUCT_ID);
+                    if(item.UPN_ID == "NPAW02T")
+                    {
+                        Console.Write("");
+                    }
+                    Repository.UpdateTokusaiItemOPLogs(item);
+                }
+                Repository.SaveTimeRunning(list.LastOrDefault().ID, end);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Tokusai_LineItem_OP_LOGS_Update", ex);
+            }
+
+        }
     }
 }

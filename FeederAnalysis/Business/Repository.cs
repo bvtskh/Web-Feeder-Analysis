@@ -255,7 +255,17 @@ namespace FeederAnalysis.Business
             {
                 var res = context.Database.SqlQuery<FindAllMaterialOrderItemChange>("FindAllMaterialOrderItemChange", "");
                 return res.ToList();
+            }
+        }
 
+        public static List<MaterialOrderItemOP> DX_GetOperationLogByTime(DateTime start, DateTime end)
+        {
+            using (UmesContext context = new UmesContext())
+            {
+                var startParam = new SqlParameter("@start", start);
+                var endParam = new SqlParameter("@end", end);
+                var res = context.Database.SqlQuery<MaterialOrderItemOP>("DX_GetOperationLogByTime @start, @end", startParam, endParam);
+                return res.ToList();
             }
         }
 
@@ -333,6 +343,167 @@ namespace FeederAnalysis.Business
                     }
                 }
                 return lstInsert;
+            }
+        }
+
+        internal static void SaveTimeRunning(Guid iD, DateTime time)
+        {
+            using (var db = new DataContext())
+            {
+                var sql = $@"DELETE FROM [dbo].[TimeRunning]";
+                db.Database.ExecuteSqlCommand(sql);
+                sql = $@"INSERT INTO [dbo].[TimeRunning]
+                                       ([TIME_RUNNING]
+                                       ,[ID])
+                                 VALUES
+                                       ('{time}'
+                                       ,'{iD.ToString()}')";
+                db.Database.ExecuteSqlCommand(sql);
+            }
+        }
+
+        internal static void UpdateTokusaiItemOPLogs(MaterialOrderItemOP item)
+        {
+            var itemDB = GetTokusaiItemOPLogs(item.LINE_ID, item.PART_ID, item.PRODUCT_ID);
+            if (itemDB != null)
+            {
+                if (!item.IS_DM_ACCEPT && itemDB.IS_DM_ACCEPT)
+                {
+                    SaveTokusaiLineHistory(item, TokusaiItemHistoryChangeId.TokusaiDMNotAccept, "Linh kiện Tokusai không được DM cho phép sử dụng");
+                    UpdateItemOPLogs(item);
+                }
+
+                if (itemDB.IS_TOKUSAI != item.IS_TOKUSAI)
+                {
+                    var changeID = itemDB.IS_TOKUSAI ? TokusaiItemHistoryChangeId.HongTrang : TokusaiItemHistoryChangeId.TrangHong;
+                    var reason = itemDB.IS_TOKUSAI ? "Tokusai Hồng => Trắng" : "Tokusai Trắng => Hồng";
+                    SaveTokusaiLineHistory(item, changeID, reason);
+                    UpdateItemOPLogs(item);
+                }
+            }
+            else
+            {
+                if (!item.IS_DM_ACCEPT)
+                {
+                    SaveTokusaiLineHistory(item, TokusaiItemHistoryChangeId.TokusaiDMNotAccept, "Linh kiện Tokusai không được DM cho phép sử dụng");
+                }
+                InsertNewItemOPLogs(item);
+            }
+        }
+
+        private static void InsertNewItemOPLogs(MaterialOrderItemOP item)
+        {
+            using (var db = new DataContext())
+            {
+                string tokusai = item.IS_TOKUSAI ? "1" : "0";
+                string dm = item.IS_DM_ACCEPT ? "1" : "0";
+                var sql = $@"INSERT INTO [dbo].[Tokusai_LineItem_OP_LOGS]
+                                       ([LINE_ID]
+                                       ,[PART_ID]
+                                       ,[PRODUCT_ID]
+                                       ,[MATERIAL_ORDER_ID]
+                                       ,[UPD_TIME]
+                                       ,[IS_TOKUSAI]
+                                       ,[WO]
+                                       ,[IS_DM_ACCEPT])
+                                 VALUES
+                                       ('{item.LINE_ID}'
+                                       ,'{item.PART_ID}'
+                                       ,'{item.PRODUCT_ID}'
+                                       ,'{item.MATERIAL_ORDER_ID}'
+                                       ,'{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'
+                                       ,{tokusai}
+                                       ,'{item.PRODUCTION_ORDER_ID}'
+                                       ,{dm})";
+                db.Database.ExecuteSqlCommand(sql);
+            }
+        }
+
+        private static void UpdateItemOPLogs(MaterialOrderItemOP item)
+        {
+            using (var db = new DataContext())
+            {
+                var tokusai = item.IS_TOKUSAI ? "1" : "0";
+                var dm = item.IS_DM_ACCEPT ? "1" : "0";
+                var sql = $@"UPDATE [dbo].[Tokusai_LineItem_OP_LOGS]
+                           SET 
+                              [UPD_TIME] = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'
+                              ,[IS_TOKUSAI] = {tokusai}
+                              ,[IS_DM_ACCEPT] = {dm}
+                         WHERE LINE_ID = '{item.LINE_ID}' AND PART_ID = '{item.PART_ID}' AND PRODUCT_ID = '{item.PRODUCT_ID}'";
+                db.Database.ExecuteSqlCommand(sql);
+            }
+        }
+
+        private static void SaveTokusaiLineHistory(MaterialOrderItemOP item, TokusaiItemHistoryChangeId changeID, string reason)
+        {
+            using (var db = new DataContext())
+            {
+                var IsExist = db.Tokusai_LineHistorys.Where(m => m.ID.ToUpper() == item.ID.ToString().ToUpper()).FirstOrDefault();
+                string sql = "";
+                if (IsExist == null)
+                {
+                    sql = $@"INSERT INTO [dbo].[Tokusai_LineHistory]
+                                           ([LINE_ID]
+                                           ,[PART_ID]
+                                           ,[PRODUCT_ID]
+                                           ,[UPD_TIME]
+                                           ,[CHANGE_NAME]
+                                           ,[CHANGE_ID]
+                                           ,[WO]
+                                           ,[IS_CONFIRM]
+                                           ,[IS_DM_ACCEPT]
+                                           ,[ID]
+                                           ,[MATERIAL_ORDER_ID]
+                                           )
+                                     VALUES
+                                           ('{item.LINE_ID}'
+                                           ,'{item.PART_ID}'
+                                           ,'{item.PRODUCT_ID}'
+                                           ,'{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'
+                                           ,N'{reason}'
+                                           ,{(int)changeID}
+                                           ,'{item.PRODUCTION_ORDER_ID}'
+                                           ,0
+                                           ,1
+                                           ,'{item.ID}'
+                                           ,'{item.MATERIAL_ORDER_ID}')";
+                    db.Database.ExecuteSqlCommand(sql);
+                }
+
+            }
+        }
+
+        internal static Tokusai_LineItem GetTokusaiItemOPLogs(string lINE_ID, string pART_ID, string pRODUCT_ID)
+        {
+            using (var db = new DataContext())
+            {
+                string sql = $@"SELECT [LINE_ID]
+                                      ,[PART_ID]
+                                      ,[PRODUCT_ID]
+                                      ,[MATERIAL_ORDER_ID]
+                                      ,[UPD_TIME]
+                                      ,[IS_TOKUSAI]
+                                      ,[WO]
+                                      ,[IS_DM_ACCEPT]
+                                  FROM [dbo].[Tokusai_LineItem_OP_LOGS]
+                                  WHERE LINE_ID = '{lINE_ID}'
+                                  AND PART_ID = '{pART_ID}'
+                                  AND PRODUCT_ID = '{pRODUCT_ID}'";
+                var res = db.Database.SqlQuery<Tokusai_LineItem>(sql, "").FirstOrDefault();
+                return res;
+            }
+        }
+
+        internal static TimeRunning GetLastIndexRequest()
+        {
+            using (var db = new DataContext())
+            {
+                string sql = $@"SELECT [TIME_RUNNING]
+                                      ,[ID]
+                                  FROM [SMT-TEST].[dbo].[TimeRunning]";
+                var res = db.Database.SqlQuery<TimeRunning>(sql, "").FirstOrDefault();
+                return res;
             }
         }
 
@@ -574,7 +745,7 @@ namespace FeederAnalysis.Business
             using (UmesContext context = new UmesContext())
             {
                 var dayShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 0, 0);
-                if(DateTime.Now.DayOfWeek == DayOfWeek.Monday)
+                if (DateTime.Now.DayOfWeek == DayOfWeek.Monday)
                 {
                     dayShift = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 0, 0);
                 }

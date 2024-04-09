@@ -158,6 +158,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Business\CommonHelper.cs" />
     <Compile Include="Business\Comparint.cs" />
+    <Compile Include="Business\Constant.cs" />
     <Compile Include="Business\EmailHelper.cs" />
     <Compile Include="Business\FeederHelper.cs" />
     <Compile Include="Business\PartInfoHelper.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Models\SqueegeeEntity.cs" />
     <Compile Include="Models\StellMeshEntity.cs" />
     <Compile Include="Models\tb_Feeder.cs" />
+    <Compile Include="Models\TimeRunning.cs" />
     <Compile Include="Models\Tokusai_Item.cs" />
     <Compile Include="Models\Tokusai_LineHistory.cs" />
     <Compile Include="Models\Tokusai_LineItem.cs" />

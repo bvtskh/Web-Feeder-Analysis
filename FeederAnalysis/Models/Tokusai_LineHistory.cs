@@ -16,7 +16,7 @@ namespace FeederAnalysis.Models
         public int CHANGE_ID { get; set; }
         public bool IS_CONFIRM { get; set; }
         public string MATERIAL_ORDER_ID { get; set; }
-        public int MACHINE_SLOT { get; set; }
+        public int? MACHINE_SLOT { get; set; }
         public string MACHINE_ID { get; set; }
         public bool IS_DM_ACCEPT { get; set; }
         public string WO { get; set; }
