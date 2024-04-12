@@ -470,10 +470,10 @@ namespace FeederAnalysis.Business
                                            ,'{item.PRODUCT_ID}'
                                            ,'{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'
                                            ,N'{reason}'
-                                           ,{(int)changeID}
+                                           , {(int)changeID}
                                            ,'{item.PRODUCTION_ORDER_ID}'
                                            ,0
-                                           ,1
+                                           , {item.IS_DM_ACCEPT}
                                            ,'{item.ID}'
                                            ,'{item.MATERIAL_ORDER_ID}')";
                 db.Database.ExecuteSqlCommand(sql);
