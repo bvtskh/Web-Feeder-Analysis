@@ -29,8 +29,11 @@ namespace FeederAnalysis.Business
         {
             try
             {
-                var userName = "umc_form_request@umcvn.com";
-                var password = "Umchd@123";
+                //var userName = "umc_form_request@umcvn.com";
+                //var password = "Umchd@123";
+                //var subject = "System";
+                var userName = "DXsystem@umcvn.com";
+                var password = "Lca@12345";
                 var subject = "System";
                 MailMessage mailMessage = new MailMessage();
                 SmtpClient smtpClient = new SmtpClient
@@ -45,7 +48,7 @@ namespace FeederAnalysis.Business
                     Credentials = new NetworkCredential(userName, password)
                 };
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
-                mailMessage.From = new MailAddress(userName, "IT System");
+                mailMessage.From = new MailAddress(userName, "DX System");
                 foreach (var item in lstEmailTo)
                 {
                     mailMessage.To.Add(item);

@@ -201,7 +201,7 @@ namespace FeederAnalysis.Business
                     EmailHelper.SenMailOutlook(body);
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 // log.Error("Ga Job Error", ex);
             }

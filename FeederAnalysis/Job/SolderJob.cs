@@ -19,7 +19,7 @@ namespace FeederAnalysis.Job
             {
               Repository.UpdateSolder();
             }
-            catch (Exception ex)
+            catch
             {
                // log.Error("Ga Job Error", ex);
             }

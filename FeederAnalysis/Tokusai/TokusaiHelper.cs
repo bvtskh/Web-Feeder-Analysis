@@ -189,7 +189,65 @@ namespace FeederAnalysis.Tokusai
             }
 
         }
+
         public void Tokusai_LineItem_Update()
+        {
+            try
+            {
+                Stopwatch t = new Stopwatch();
+                var currentMaterials = Repository.FindAllMaterialItem();
+                var listCurrentMaterials = currentMaterials
+               .GroupBy(c => new
+               {
+                   c.LINE_ID,
+                   c.PART_ID,
+                   c.PRODUCT_ID
+               }).Select(gcs => new
+               {
+                   LINE_ID = gcs.Key.LINE_ID,
+                   PART_ID = gcs.Key.PART_ID,
+                   PRODUCT_ID = gcs.Key.PRODUCT_ID,
+                   LIST = gcs.ToList(),
+               });
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("LINE_ID", typeof(string));
+                dt.Columns.Add("PART_ID", typeof(string));
+                dt.Columns.Add("PRODUCT_ID", typeof(string));
+                dt.Columns.Add("UPD_TIME", typeof(DateTime));
+                dt.Columns.Add("IS_TOKUSAI", typeof(bool));
+                dt.Columns.Add("WO", typeof(string));
+                dt.Columns.Add("IS_DM_ACCEPT", typeof(bool));
+                dt.Columns.Add("MATERIAL_ORDER_ID", typeof(string));
+
+                foreach (var material in listCurrentMaterials)
+                {
+                    MaterialOrderItem upnFirst = material.LIST.FirstOrDefault();
+                    dt.Rows.Add(new object[] {
+                    material.LINE_ID,  material.PART_ID,material.PRODUCT_ID,
+                    DateTime.Now,IsTokusai(material.LIST),upnFirst.PRODUCTION_ORDER_ID, IsDMAccept(material.LIST),upnFirst.MATERIAL_ORDER_ID});
+                }
+                //dt.Rows.Add(new object[] {
+                //    "S16"
+                //    , "300-105-717"
+                //    ,"ETP760281",
+                //    DateTime.Now
+                //    ,false
+                //    ,"2000954558"
+                //    , 1
+                //    ,"ETP760281-S16-A-231128"});
+
+                Repository.Tokusai_LineItem_Update(dt);
+                System.Diagnostics.Debug.WriteLine(t.ElapsedMilliseconds);
+            }
+            catch (Exception ex)
+            {
+                log.Error("Ope Job Err", ex);
+            }
+
+        }
+
+        public void Tokusai_LineItem_Update2()
         {
             try
             {
@@ -256,7 +314,7 @@ namespace FeederAnalysis.Tokusai
                     if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
 
                 Console.WriteLine("");
@@ -272,7 +330,7 @@ namespace FeederAnalysis.Tokusai
                 var upnEntity = UpnCache.FindBc(item.UPN_ID);
                 if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
             }
-            catch (Exception ex)
+            catch
             {
 
                 Console.WriteLine("");
@@ -287,7 +345,7 @@ namespace FeederAnalysis.Tokusai
                 var upnEntity = UpnCache.FindBc(upn);
                 if (!string.IsNullOrEmpty(upnEntity.emNo)) return true;
             }
-            catch (Exception ex)
+            catch
             {
                 Console.WriteLine("");
             }
@@ -353,16 +411,22 @@ namespace FeederAnalysis.Tokusai
                 var list = Repository.DX_GetOperationLogByTime(start, end);
                 foreach (var item in list)
                 {
+                    //Debug.WriteLine(item.UPN_ID);
+                    //if (item.UPN_ID == "NQ4B2AE")
+                    //{
+                    //    Debug.Write("-------------");
+                    //}
                     if (item.ID.ToString().ToUpper() == lastIndexRequest.ID.ToUpper()) continue;
                     item.IS_TOKUSAI =  IsTokusai(item.UPN_ID);
                     item.IS_DM_ACCEPT = IsDMAccept(item.UPN_ID, item.PRODUCT_ID);
-                    if(item.UPN_ID == "NPAW02T")
-                    {
-                        Console.Write("");
-                    }
+
+                    //NQ2L4DN
                     Repository.UpdateTokusaiItemOPLogs(item);
                 }
-                Repository.SaveTimeRunning(list.LastOrDefault().ID, end);
+                if(list.Count>0)
+                {
+                    Repository.SaveTimeRunning(list.LastOrDefault().ID, end);
+                }
             }
             catch (Exception ex)
             {

@@ -19,8 +19,8 @@ namespace FeederAnalysis.Tokusai
         {
             try
             {
-                Stopwatch t = new Stopwatch();
-                t.Start();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 var currentMaterials = Repository.FindAllMaterialItem();
                 var listPartMainSub = Repository.GetAllPartMainSub();
                 var materials = currentMaterials
@@ -61,8 +61,11 @@ namespace FeederAnalysis.Tokusai
                     var firstItem = material.LIST.FirstOrDefault();
                     dtMainSub.Rows.Add(new object[] {
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});
+                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});                  
                 }
+                Repository.MainSub_LineItem_Update(dtMainSub);
+                stopwatch.Stop();
+                log.Debug("MainSub_LineItem_Update_Finish_" + stopwatch.ElapsedMilliseconds.ToString());
                 // check chuyển đổi WO
                 var currentMaterialGroupByModel = materials.GroupBy(m => new
                 {
@@ -82,21 +85,16 @@ namespace FeederAnalysis.Tokusai
                     {
                         if (IsChangeMainSub(model, listOldPart, listNewPart))
                         {
-                            Repository.MainSubSave(item.LIST_PART.FirstOrDefault(), model.PART_FROM, model.PART_TO);
+                            //Repository.MainSubSave(item.LIST_PART.FirstOrDefault(), model.PART_FROM, model.PART_TO);
+                            Repository.MainSubSave(item.LIST_PART, model.PART_FROM, model.PART_TO);
                         }
                     }
-                   
                 }
-
-                Repository.MainSub_LineItem_Update(dtMainSub);
-                t.Stop();
-                log.Debug("MainSub_LineItem_Update_Finish_" + t.ElapsedMilliseconds.ToString());
             }
             catch (Exception ex)
             {
                 log.Error("MainSub_LineItem_Update", ex);
             }
-
         }
 
         private bool IsChangeMainSub(MainSub_Model model, List<string> listOldPart, List<string> listNewPart)

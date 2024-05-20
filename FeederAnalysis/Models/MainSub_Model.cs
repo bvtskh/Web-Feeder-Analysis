@@ -12,5 +12,6 @@ namespace FeederAnalysis.Models
         public string ID { get; set; }
         public string UPDATOR { get; set; }
         public DateTime UPD_TIME { get; set; }
+        public bool IS_SPECIAL { get; set; }
     }
 }
