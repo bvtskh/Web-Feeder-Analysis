@@ -63,9 +63,6 @@ namespace FeederAnalysis.Tokusai
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
                     DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});                  
                 }
-                Repository.MainSub_LineItem_Update(dtMainSub);
-                stopwatch.Stop();
-                log.Debug("MainSub_LineItem_Update_Finish_" + stopwatch.ElapsedMilliseconds.ToString());
                 // check chuyển đổi WO
                 var currentMaterialGroupByModel = materials.GroupBy(m => new
                 {
@@ -90,6 +87,9 @@ namespace FeederAnalysis.Tokusai
                         }
                     }
                 }
+                Repository.MainSub_LineItem_Update(dtMainSub);
+                stopwatch.Stop();
+                log.Debug("MainSub_LineItem_Update_Finish_" + stopwatch.ElapsedMilliseconds.ToString());
             }
             catch (Exception ex)
             {
