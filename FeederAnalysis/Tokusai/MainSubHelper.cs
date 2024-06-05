@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using FeederAnalysis.Business;
 using FeederAnalysis.Cache;
+using FeederAnalysis.DAL.UMES;
 using FeederAnalysis.Models;
 using Newtonsoft.Json.Linq;
 
@@ -17,6 +18,63 @@ namespace FeederAnalysis.Tokusai
 
         public void MainSub_LineItem_Update()
         {
+            //try
+            //{
+            //    using(var context = new UmesContext())
+            //    {
+            //        // lấy part main sub
+            //        var allMainSub = Repository.GetAllPartMainSub();
+            //        var varMainSubFrom = allMainSub.Select(s=>s.PART_FROM).ToList();
+            //        var varMainSubTo = allMainSub.Select(s => s.PART_TO).ToList();
+            //        List<string> mainSubPart = new List<string>();
+            //        mainSubPart.AddRange(varMainSubFrom);
+            //        mainSubPart.AddRange(varMainSubTo);
+            //        mainSubPart = mainSubPart.Distinct().ToList();
+
+            //        var dateNow = DateTime.Now.AddMinutes(-30).ToString("yyyy-MM-dd HH:mm:ss.fff").ToString();
+            //        //var checkDate = Repository.GetLastTimeRunningMainSub().TIME_RUNNING.ToString();
+
+            //        // Tạo chuỗi Part với dấu ngoặc đơn và dấu phẩy
+            //        string parts = string.Join(",", mainSubPart.Select(code => $"'{code}'"));
+            //        // lấy LINE đang chạy.
+            //        string sqlQuery = $@"
+            //                        SELECT
+            //                  [ALTER_PART_ID]
+            //                        ,[ID]
+            //                        ,[LINE_ID]     
+            //                        ,[OPERATE_TIME]
+            //                        ,[PART_ID]    
+            //                        ,[MATERIAL_ORDER_ID]
+            //                        ,[MACHINE_SLOT]
+            //                        ,[MACHINE_ID]
+            //                        ,[PRODUCT_ID]
+            //                        ,[PRODUCTION_ORDER_ID]
+            //                      FROM [UMC_MESDB_TEST].[dbo].[OPERATION_LOGS]
+            //                      where 
+            //                      IS_FAILED = 0
+            //                      and 
+            //                      PART_ID in({parts})
+            //                      and
+            //                      OPERATE_TIME >= '{dateNow}'
+            //                      and TASK in(11,15)
+            //                      order by  OPERATE_TIME";
+
+            //        var data = context.Database.SqlQuery<OpeLogEntity>(sqlQuery).ToList();
+            //        if (data.Count > 0)
+            //        {
+            //            Repository.MainSubSave(data, allMainSub);
+            //        }
+
+            //    }
+            //}
+            //catch (Exception)
+            //{
+
+            //    throw;
+            //}
+
+
+
             try
             {
                 Stopwatch stopwatch = new Stopwatch();
@@ -61,7 +119,7 @@ namespace FeederAnalysis.Tokusai
                     var firstItem = material.LIST.FirstOrDefault();
                     dtMainSub.Rows.Add(new object[] {
                     material.LINE_ID,  firstItem.PART_ID,material.PRODUCT_ID,
-                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});                  
+                    DateTime.Now,firstItem.PRODUCTION_ORDER_ID,firstItem.MATERIAL_ORDER_ID,firstItem.ALTER_PART_ID});
                 }
                 // check chuyển đổi WO
                 var currentMaterialGroupByModel = materials.GroupBy(m => new
@@ -78,7 +136,7 @@ namespace FeederAnalysis.Tokusai
                 {
                     var listOldPart = Repository.GetAllPartLineItem(item.LINE_ID, item.PRODUCT_ID);
                     var listNewPart = item.LIST_PART.Select(s => s.PART_ID).ToList();
-                    foreach(var model in listPartMainSub)
+                    foreach (var model in listPartMainSub)
                     {
                         if (IsChangeMainSub(model, listOldPart, listNewPart))
                         {

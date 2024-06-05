@@ -19,6 +19,7 @@ namespace FeederAnalysis.Business
             int mainsubInterval = Bet.Util.Config.GetValue("MainSubInterval").ToInt();
             int verifyInterval = Bet.Util.Config.GetValue("VerifyInterval").ToInt();
             int opeInterval = 10;
+            int WOReationShipInterval = 60; //60 phút
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
             IJobDetail feederJob = JobBuilder.Create<FeederJob>()
@@ -83,6 +84,18 @@ namespace FeederAnalysis.Business
                .WithSimpleSchedule(r => r.WithIntervalInMinutes(mainsubInterval)
                .RepeatForever())
                .Build();
+
+            IJobDetail ECOReationShipJob = JobBuilder.Create<WOReationShipJob>()
+               .WithIdentity("ECOReationShipJob")
+              .Build();
+            ITrigger ECOReationShipTrigger = TriggerBuilder.Create()
+               .WithIdentity("ECOReationShipTrigger")
+               .StartNow()
+               .WithSimpleSchedule(r => r.WithIntervalInMinutes(WOReationShipInterval)
+               .RepeatForever())
+               .Build();
+
+
             //IJobDetail gaJob = JobBuilder.Create<GaJob>()
             //  .WithIdentity("gaJob")
             //  .Build();
@@ -173,6 +186,9 @@ namespace FeederAnalysis.Business
                 .StartingDailyAt(TimeOfDay.HourAndMinuteOfDay(0, 0))
                 )
                 .Build();
+
+
+            scheduler.ScheduleJob(ECOReationShipJob, ECOReationShipTrigger);
             scheduler.ScheduleJob(feederJob, feederTrigger);
             scheduler.ScheduleJob(tokusaiJob, tokusaiTrigger);
             scheduler.ScheduleJob(tokusaiAlarmJob, tokusaiAlarmTrigger);

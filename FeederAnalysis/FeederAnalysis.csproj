@@ -174,12 +174,29 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="DAL\COST\COSTSystemContext.cs" />
+    <Compile Include="DAL\DX\Account.cs" />
+    <Compile Include="DAL\DX\Area.cs" />
+    <Compile Include="DAL\DX\C__MigrationHistory.cs" />
+    <Compile Include="DAL\DX\ECOContext.cs" />
+    <Compile Include="DAL\DX\ECOSchedule.cs" />
+    <Compile Include="DAL\DX\ECO_ControlSheet.cs" />
+    <Compile Include="DAL\DX\HistoryUpdateControlSheet.cs" />
+    <Compile Include="DAL\DX\Model_Family.cs" />
+    <Compile Include="DAL\DX\Purchase_Action.cs" />
+    <Compile Include="DAL\DX\sysdiagram.cs" />
+    <Compile Include="DAL\DX\Version.cs" />
+    <Compile Include="DAL\DX\WoChanging.cs" />
+    <Compile Include="DAL\DX\WoChangingHistory.cs" />
+    <Compile Include="DAL\DX\WochangingInfoAdvanced.cs" />
+    <Compile Include="DAL\DX\WoModified.cs" />
+    <Compile Include="DAL\DX\WO_Relationship.cs" />
     <Compile Include="DAL\LCA\PIContext.cs" />
     <Compile Include="DAL\USAP\USAPContext.cs" />
     <Compile Include="Entities\ShiftEntity.cs" />
     <Compile Include="Job\CaliJob.cs" />
     <Compile Include="DAL\DXContext.cs" />
     <Compile Include="Job\CheckPartQuantityJob.cs" />
+    <Compile Include="Job\WOReationShipJob.cs" />
     <Compile Include="Job\EduEyeJob.cs" />
     <Compile Include="Job\EduHelper.cs" />
     <Compile Include="Job\VerifedOrderItemJob.cs" />

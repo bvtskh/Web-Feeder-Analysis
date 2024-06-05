@@ -15,6 +15,7 @@ namespace FeederAnalysis.DAL.UMES
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+
         }
     }
 }

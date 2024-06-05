@@ -7,6 +7,7 @@ namespace FeederAnalysis.Models
 {
     public class OpeLogEntity
     {
+        public string ALTER_PART_ID {  get; set; }
         public Guid ID { get; set; }
         public string PRODUCT_ID { get; set; }
         public string FAULT_REASON { get; set; }
@@ -17,6 +18,8 @@ namespace FeederAnalysis.Models
         public string LINE_ID { get; set; }
         public string CUSTOMER_ID { get; set; }
         public int MACHINE_SLOT { get; set; }
+        public string MACHINE_ID { get; set; }
         public int TASK { get; set; }
+        public string MATERIAL_ORDER_ID { get; set; }
     }
 }

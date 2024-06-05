@@ -144,8 +144,7 @@ namespace FeederAnalysis.Business
 																	<strong>Time</strong>                                                         
 																</p>
 															</td>
-														</tr>
-{builder.ToString()}
+														</tr>{builder.ToString()}
 													</tbody>
 												</table>
 												<hr style='border-top:1px solid #cccccc;background:#cccccc;width:100%;margin-top:10px'>											

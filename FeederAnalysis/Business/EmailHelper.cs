@@ -14,12 +14,18 @@ namespace FeederAnalysis.Business
             "quyetpv@umcvn.com",
             "hanhvt@umcvn.com",
             "nhungtt@umcvn.com",
-            "khinhpt@umcvn.com",
             "oqc-pd3@umcvn.com",
             "thanhtv@umcvn.com",
             "khanhdv@umcvn.com",
             "oanhqt@umcvn.com",
-            "tuanta@umcvn.com"
+            "tuanta@umcvn.com",
+            "kiettv@umcvn.com",
+            "vannd@umcvn.com",
+            "phuctran@umcvn.com",
+            "phamphuong@umcvn.com",
+            "khanhdv@umcvn.com",
+            "dungdv@umcvn.com",
+            "Thaodt@umcvn.com"
         };
         static List<string> lstEmailCC = new List<string>()
         {
@@ -212,6 +218,51 @@ namespace FeederAnalysis.Business
             {
                 System.Diagnostics.Debug.WriteLine(ex.Message);
                 throw ex;
+            }
+        }
+
+        internal static void SenMailWORelationship(string mailBody)
+        {
+            try
+            {
+                var userName = "DXsystem@umcvn.com";
+                var password = "Lca@12345";
+                var subject = "WO Relationship System";
+                MailMessage mailMessage = new MailMessage();
+                SmtpClient smtpClient = new SmtpClient
+                {
+                    EnableSsl = true,
+                    Host = "smtp.office365.com",
+                    Port = 587,
+                    UseDefaultCredentials = false,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+
+                    TargetName = "STARTTLS/smtp.office365.com",
+                    Credentials = new NetworkCredential(userName, password)
+                };
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
+                mailMessage.From = new MailAddress(userName, "DX System");
+
+                mailMessage.To.Add("hanhnth@umcvn.com"); // hạnh PC
+                mailMessage.To.Add("quyetpv@umcvn.com"); // anh quyết:))
+                mailMessage.To.Add("nhungtt@umcvn.com"); // ko biết ai
+                //mailMessage.CC.Add(item);
+                //mailMessage.To.Add("dx_dev_group@umcvn.com"); 
+
+                mailMessage.Subject = subject;
+                mailMessage.Body = mailBody;
+                mailMessage.IsBodyHtml = true;
+                smtpClient.SendCompleted += (s, e) =>
+                {
+                    smtpClient.Dispose();
+                    mailMessage.Dispose();
+                };
+                smtpClient.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                
             }
         }
     }

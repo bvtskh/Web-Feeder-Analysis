@@ -1,9 +1,11 @@
 ﻿using FeederAnalysis.Cache;
 using FeederAnalysis.DAL;
 using FeederAnalysis.DAL.COST;
+using FeederAnalysis.DAL.DX;
 using FeederAnalysis.DAL.UMES;
 using FeederAnalysis.DAL.USAP;
 using FeederAnalysis.Models;
+using FeederAnalysis.UsapService;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -510,6 +512,18 @@ namespace FeederAnalysis.Business
             }
         }
 
+        internal static TimeRunning GetLastTimeRunningMainSub()
+        {
+            using (var db = new DataContext())
+            {
+                string sql = $@"SELECT [TIME_RUNNING]
+                                      ,[ID]
+                                  FROM [dbo].[TimeRunning_MainSub]";
+                var res = db.Database.SqlQuery<TimeRunning>(sql, "").FirstOrDefault();
+                return res;
+            }
+        }
+
         internal static List<MainSub_Model> GetAllPartMainSub()
         {
             using (var db = new DataContext())
@@ -683,70 +697,99 @@ namespace FeederAnalysis.Business
         }
         public static void MainSubSave(List<MaterialOrderItem> item, string partFrom, string partTo)
         {
-            var selectItem = item.Where(w=>w.PART_ID == partFrom || w.PART_ID == partTo).FirstOrDefault();
-            if (selectItem == null) return;
-            using (DataContext db = new DataContext())
+            try
             {
-                using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                var selectItem = item.Where(w => w.PART_ID == partFrom || w.PART_ID == partTo).FirstOrDefault();
+                if (selectItem == null) return;
+                var material_order_id = selectItem.MATERIAL_ORDER_ID;
+                using (DataContext db = new DataContext())
                 {
-                    var existedMainSub = db.Tokusai_LineHistorys.Where(w => w.CHANGE_NAME.Contains(partFrom) && w.CHANGE_NAME.Contains(partTo)).ToList();
-                    if (existedMainSub.Count>0)
-                    {
-                        foreach(var dataExisted in existedMainSub)
-                        {
-                            // Find the index of '(' and ')'
-                            int startIndex = dataExisted.CHANGE_NAME.IndexOf('(');
-                            int endIndex = dataExisted.CHANGE_NAME.IndexOf(')');
+                    var existedMainSub = db.Tokusai_LineHistorys.Where(w => (w.CHANGE_NAME.Contains(partFrom) || w.CHANGE_NAME.Contains(partTo)) && w.PART_ID == selectItem.PART_ID && w.IS_CONFIRM == false).FirstOrDefault();
+                    if (existedMainSub != null) return;
+                    AddNewMainSub(selectItem, partFrom, partTo);
 
-                            // Check if both '(' and ')' exist and '(' comes before ')'
-                            if (startIndex != -1 && endIndex != -1 && startIndex < endIndex)
-                            {
-                                // Extract the substring
-                                string result = dataExisted.CHANGE_NAME.Substring(startIndex + 1, endIndex - startIndex - 1);
-                                string fromPart = result.Split('>').First().Trim().Substring(0, result.Split('>').First().Trim().Length-1).Trim();
-                                string toPart = result.Split('>').Last().Trim();
-
-                                if (fromPart == partFrom && toPart == partTo) continue;
-
-                                var tokusai = new Tokusai_LineHistory()
-                                {
-                                    LINE_ID = selectItem.LINE_ID,
-                                    PART_ID = selectItem.PART_ID,
-                                    PRODUCT_ID = selectItem.PRODUCT_ID,
-                                    UPD_TIME = DateTime.Now,
-                                    CHANGE_NAME = $"MainSub({partFrom} -> {partTo})",
-                                    CHANGE_ID = 4,
-                                    WO = selectItem.PRODUCTION_ORDER_ID,
-                                    IS_CONFIRM = false,
-                                    ID = Guid.NewGuid().ToString(),
-                                    MATERIAL_ORDER_ID = selectItem.MATERIAL_ORDER_ID,
-                                    MACHINE_SLOT = selectItem.MACHINE_SLOT,
-                                    MACHINE_ID = selectItem.MACHINE_ID,
-                                    IS_DM_ACCEPT = true
-                                };
-
-                                db.Tokusai_LineHistorys.Add(tokusai);
-                                db.SaveChanges();
-
-                                var existBKWo = $@"select count(*) from  [{DB}].[dbo].[MainSub_LineItem_backup] where 
-                                                 LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
-
-                                int resultCheckExisted = db.Database.SqlQuery<int>(existBKWo, "").FirstOrDefault();
-                                if (resultCheckExisted <= 0)
-                                {
-                                    string sql = $@"INSERT INTO [{DB}].[dbo].[MainSub_LineItem_backup] 
-                                            SELECT* FROM[{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
-                                    db.Database.ExecuteSqlCommand(sql, "");
-                                }
-
-                                string sql1 = $@"DELETE FROM [{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
-                                db.Database.ExecuteSqlCommand(sql1, "");
-                                transaction.Commit();
-                            }
-                        }
-                    }                    
+                    //if (!IsWaitingConfirm(existedMainSub, selectItem.PART_ID)) //Kiem tra submain
+                    //{
+                    //    AddNewMainSub(selectItem, partFrom, partTo);
+                    //}
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }         
+        }
+
+        private static void AddNewMainSub(MaterialOrderItem selectItem, string partFrom, string partTo)
+        {
+            try
+            {
+                using (DataContext db = new DataContext())
+                {
+                    using (DbContextTransaction transaction = db.Database.BeginTransaction())
+                    {
+                        var tokusai = new Tokusai_LineHistory()
+                        {
+                            LINE_ID = selectItem.LINE_ID,
+                            PART_ID = selectItem.PART_ID,
+                            PRODUCT_ID = selectItem.PRODUCT_ID,
+                            UPD_TIME = DateTime.Now,
+                            CHANGE_NAME = $"MainSub({partFrom} -> {partTo})",
+                            CHANGE_ID = 4,
+                            WO = selectItem.PRODUCTION_ORDER_ID,
+                            IS_CONFIRM = false,
+                            ID = Guid.NewGuid().ToString(),
+                            MATERIAL_ORDER_ID = selectItem.MATERIAL_ORDER_ID,
+                            MACHINE_SLOT = selectItem.MACHINE_SLOT,
+                            MACHINE_ID = selectItem.MACHINE_ID,
+                            IS_DM_ACCEPT = true
+                        };
+
+                        db.Tokusai_LineHistorys.Add(tokusai);
+                        db.SaveChanges();
+
+                        var existBKWo = $@"select count(*) from  [{DB}].[dbo].[MainSub_LineItem_backup] where 
+                                            LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
+
+                        int resultCheckExisted = db.Database.SqlQuery<int>(existBKWo, "").FirstOrDefault();
+                        if (resultCheckExisted <= 0)
+                        {
+                            string sql = $@"INSERT INTO [{DB}].[dbo].[MainSub_LineItem_backup] 
+                                    SELECT* FROM[{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
+                            db.Database.ExecuteSqlCommand(sql, "");
+                        }
+
+                        string sql1 = $@"DELETE FROM [{DB}].[dbo].[MainSub_LineItem] WHERE LINE_ID = '{selectItem.LINE_ID}' AND PRODUCT_ID = '{selectItem.PRODUCT_ID}' AND PART_ID = '{partFrom}'";
+                        db.Database.ExecuteSqlCommand(sql1, "");
+                        transaction.Commit();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error: ", ex);
+            }
+        }
+
+        private static bool IsWaitingConfirm(List<Tokusai_LineHistory> existedMainSub, string changePart)
+        {
+            //Kiểm tra xem đã confirm chưa
+            var mainSubWaitingConfirm = existedMainSub.Where(w => !w.IS_CONFIRM).ToList();
+            if (mainSubWaitingConfirm.Count <= 0)
+            {
+                return false;
+            }
+            else
+            {
+                foreach (var dataExisted in mainSubWaitingConfirm)
+                {
+                    // nếu part_ID khác changePart(có sự thay đổi A->B hoặc B->A)
+                    var part_ID = dataExisted.PART_ID;
+                    if (part_ID != changePart) return false; //thêm để confirm
+                }
+            }
+            return true;
         }
 
         public static string LoadedOrderItem_Update(DataTable dt)
@@ -951,6 +994,71 @@ namespace FeederAnalysis.Business
             {
                 log.Error("GetQuantitySMT", ex);
                 return null;
+            }
+        }
+
+        internal static List<WoChanging> GetRelationShipWoPCNeedConfirm()
+        {
+            //UsapService.USAPWebServiceSoapClient _usap = new USAPWebServiceSoapClient();
+            using (var context = new ECOContext())
+            {
+                return context.Database.SqlQuery<WoChanging>("exec GetPendingWoChanging")
+                .Where(e2 => !context.WO_Relationship.Select(e1 => e1.ORDER_NO).Contains(e2.ORDER_NO)).ToList()
+                .GroupBy(e => e.ORDER_NO)
+                .Select(g => g.FirstOrDefault()).ToList();
+            }
+        }
+
+        private static string GetMainSubByPart(string currentPart, List<MainSub_Model> allMainSub)
+        {
+            var existMainSub = allMainSub.Where(w => w.PART_TO == currentPart || w.PART_FROM == currentPart).FirstOrDefault();
+            if (existMainSub != null)
+            {
+                return existMainSub.PART_FROM == currentPart ? existMainSub.PART_TO : existMainSub.PART_FROM;
+            }
+            return null;
+        }
+
+        internal static void MainSubSave(List<OpeLogEntity> data, List<MainSub_Model> allMainSub)
+        {
+            try
+            {
+                using (DataContext db = new DataContext())
+                {
+                    foreach (var entity in data)
+                    {
+                        var alterPart = entity.ALTER_PART_ID;
+                        var currentPart = entity.PART_ID;
+                        if (string.IsNullOrEmpty(alterPart))
+                        {
+                            alterPart = GetMainSubByPart(currentPart, allMainSub);
+                            if (string.IsNullOrEmpty(alterPart)) return;
+                        }
+                        var tokusai = new Tokusai_LineHistory()
+                        {
+                            LINE_ID = entity.LINE_ID,
+                            PART_ID = entity.PART_ID,
+                            PRODUCT_ID = entity.PRODUCT_ID,
+                            UPD_TIME = DateTime.Now,
+                            CHANGE_NAME = $"MainSub({currentPart} -> {alterPart})",
+                            CHANGE_ID = 4,
+                            WO = entity.PRODUCTION_ORDER_ID,
+                            IS_CONFIRM = false,
+                            ID = Guid.NewGuid().ToString(),
+                            MATERIAL_ORDER_ID = entity.MATERIAL_ORDER_ID,
+                            MACHINE_SLOT = entity.MACHINE_SLOT,
+                            MACHINE_ID = entity.MACHINE_ID,
+                            IS_DM_ACCEPT = true
+                        };
+                        db.Tokusai_LineHistorys.Add(tokusai);
+                        db.SaveChanges();
+                    }
+                }
+            } 
+            catch (Exception ex)
+            {
+                log.Debug(ex);
+                return;
             }
         }
     }
